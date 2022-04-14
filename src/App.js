@@ -7,7 +7,7 @@ import { Switch, Route } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 
 import { Navigation } from './components/Navigations';
-import { AllView } from './views/AllView';
+import { CategoryView } from './views/CategoryView.js';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/',
@@ -25,6 +25,13 @@ const client = new ApolloClient({
 //   })
 //   .then(result => console.log(result));
 
+const CATEGORIES = gql`
+      {
+  categories{
+    name
+  }
+}
+    `
 
 
 class App extends Component {
@@ -32,20 +39,27 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <div className="App">
+          
           <Navigation />
           <Switch>
-          <Route path="/all" exact>
-            <AllView/>
-          </Route>
-          <Route path="/clothes" exact>
-            
-          </Route>
-          <Route path="/tech" exact>
-            
-          </Route>
-          <Route>
-            
-          </Route>
+          <Query
+                query={CATEGORIES}>
+            {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                data.categories.map(({ name }) => {
+                  console.log(name)
+                  return (
+                    <Route path={`${name}`} exact>
+                    <CategoryView title={name}/>
+                    </Route>
+                  )
+                })
+                       
+                
+            }}
+                </Query>
+          
         </Switch>
         </div>
       </ApolloProvider>
