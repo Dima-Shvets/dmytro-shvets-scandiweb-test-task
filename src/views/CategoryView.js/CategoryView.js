@@ -3,20 +3,44 @@ import { Component } from "react";
 import { gql } from "apollo-boost";
 import { Query } from '@apollo/react-components';
 
+import { ProductCard } from "../../components/ProductCard";
+
 const GET_CATEGORY = gql`
     query Category ($title: String!) {
         category (input: {title: $title} ){
-    name
+    products {
+      id
+      name
+      gallery
+      prices{
+        currency{
+          label
+          symbol
+        }
+        amount
+      }
+    }
   }
 }
     `
 
 export class CategoryView extends Component {
     
-    render() {
-        console.log(this.props)
+    render() {       
+        const { title } = this.props;
         return (
-            <p>{this.props.title}</p>
+            <Query
+                query={GET_CATEGORY}
+                variables={{title}}
+            >
+            {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;  
+                return data.category.products.map((product) => (
+                    <ProductCard key={product.id} product={product}/>
+                ));
+            }}
+        </Query>
         )
     }
 }

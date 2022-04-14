@@ -8,6 +8,7 @@ import ApolloClient from 'apollo-boost';
 
 import { Navigation } from './components/Navigations';
 import { CategoryView } from './views/CategoryView.js';
+import { ProductDetailsView } from './views/ProductDetailsView/ProductDetailView';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/',
@@ -39,28 +40,28 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <div className="App">
-          
-          <Navigation />
-          <Switch>
           <Query
                 query={CATEGORIES}>
             {({ loading, error, data }) => {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
-                data.categories.map(({ name }) => {
-                  console.log(name)
-                  return (
-                    <Route path={`${name}`} exact>
-                    <CategoryView title={name}/>
+              
+              return (
+                <div>
+                <Navigation categories={data.categories} />
+                <Switch>
+                  {data.categories.map(({ name }) => (
+                    <Route path={`/${name}`} exact key={name}>
+                      <CategoryView title={name} />
+                    </Route>))}
+                    <Route to={"/:productId"}>
+                      <ProductDetailsView/>
                     </Route>
-                  )
-                })
-                       
-                
-            }}
-                </Query>
-          
-        </Switch>
+                  </Switch>
+                </div>
+              );
+              }}
+          </Query>
         </div>
       </ApolloProvider>
     );
