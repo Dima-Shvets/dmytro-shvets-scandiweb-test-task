@@ -6,9 +6,9 @@ import { Query } from '@apollo/react-components';
 import { Switch, Route } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 
-import { Navigation } from './components/Navigations';
-import { CategoryView } from './views/CategoryView.js';
-import { ProductDetailsView } from './views/ProductDetailsView/ProductDetailView';
+import  CategoryView  from './views/CategoryView.js';
+import  ProductDetailsView  from './views/ProductDetailsView/ProductDetailView';
+import AppHeader from './components/AppHeader';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/',
@@ -45,16 +45,17 @@ class App extends Component {
             {({ loading, error, data }) => {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
+              const { categories } = data
               
               return (
                 <div>
-                <Navigation categories={data.categories} />
+                  <AppHeader categories={categories}/> 
                 <Switch>
-                  {data.categories.map(({ name }) => (
-                    <Route path={`/${name}`} exact key={name}>
+                  {categories.map(({ name }) => (
+                    <Route path={`/${name}`} key={name}>
                       <CategoryView title={name} />
                     </Route>))}
-                    <Route to={"/:productId"}>
+                    <Route path={"/:productId"}>
                       <ProductDetailsView/>
                     </Route>
                   </Switch>

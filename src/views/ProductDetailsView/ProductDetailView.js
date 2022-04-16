@@ -2,6 +2,10 @@ import { Component } from "react";
 
 import { gql } from "apollo-boost";
 import { Query } from '@apollo/react-components';
+import { withRouter } from "react-router";
+
+import AttributesButtons from "../../components/AttributesButtons";
+import ImagesGallery from "../../components/ImagesGallery";
 
 const GET_PRODUCT = gql`
     query Category ($id: String!) {
@@ -33,22 +37,43 @@ const GET_PRODUCT = gql`
 }
     `
 
-export class ProductDetailsView extends Component {
+class ProductDetailsView extends Component {
+  
 
-    render() {
+  render() {
+    const { productId } = this.props.match.params;
         return (
             <Query
                 query={GET_PRODUCT}
-                variables={{id: "huarache-x-stussy-le"}}
+                variables={{id: productId}}
             >
             {({ loading, error, data }) => {
                 if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;  
-                    return (
-                    <p>This is product details view</p>
+              if (error) return <p>Error :(</p>; 
+              
+              const { product } = data;
+
+              console.log(data)
+              return (
+                <>
+                  <ImagesGallery gallery={product.gallery} name={product.name}/>
+                  <div>
+                    <h2>{product.brand}</h2>
+                    <p>{product.name}</p>
+                    <AttributesButtons attributes={product.attributes}/>
+                    <div>
+                      <h3>Price</h3>
+                      <p><span>{product.prices[0].currency.symbol}</span>{product.prices[0].amount}</p>
+                    </div>
+                    <button>Add to cart</button>
+                    <div dangerouslySetInnerHTML={{__html: product.description} }/>
+                  </div>
+                  </>
                 );
             }}
             </Query>
         )
     }
 }
+
+export default withRouter(ProductDetailsView)

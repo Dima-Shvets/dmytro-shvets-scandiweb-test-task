@@ -1,1 +1,1 @@
-export * from "./ProductsCard";
+export {default} from "./ProductsCard";

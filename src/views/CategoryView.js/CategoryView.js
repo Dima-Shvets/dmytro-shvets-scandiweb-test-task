@@ -3,7 +3,7 @@ import { Component } from "react";
 import { gql } from "apollo-boost";
 import { Query } from '@apollo/react-components';
 
-import { ProductCard } from "../../components/ProductCard";
+import  ProductCard  from "../../components/ProductCard";
 
 const GET_CATEGORY = gql`
     query Category ($title: String!) {
@@ -24,7 +24,7 @@ const GET_CATEGORY = gql`
 }
     `
 
-export class CategoryView extends Component {
+export default class CategoryView extends Component {
     
     render() {       
         const { title } = this.props;
