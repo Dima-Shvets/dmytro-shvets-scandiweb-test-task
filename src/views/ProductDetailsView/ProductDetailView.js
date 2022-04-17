@@ -41,6 +41,8 @@ class ProductDetailsView extends Component {
   
 
   render() {
+    const { currency: selectedCurrency } = this.props;
+
     const { productId } = this.props.match.params;
         return (
             <Query
@@ -52,8 +54,8 @@ class ProductDetailsView extends Component {
               if (error) return <p>Error :(</p>; 
               
               const { product } = data;
+              const selectedCurrencyPrice = product.prices.find(price => (price.currency.label === selectedCurrency))
 
-              console.log(data)
               return (
                 <>
                   <ImagesGallery gallery={product.gallery} name={product.name}/>
@@ -63,7 +65,7 @@ class ProductDetailsView extends Component {
                     <AttributesButtons attributes={product.attributes}/>
                     <div>
                       <h3>Price</h3>
-                      <p><span>{product.prices[0].currency.symbol}</span>{product.prices[0].amount}</p>
+                      <p><span>{selectedCurrencyPrice.currency.symbol}</span>{selectedCurrencyPrice.amount}</p>
                     </div>
                     <button>Add to cart</button>
                     <div dangerouslySetInnerHTML={{__html: product.description} }/>

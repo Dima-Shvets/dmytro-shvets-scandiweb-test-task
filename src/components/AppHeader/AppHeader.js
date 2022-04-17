@@ -8,9 +8,11 @@ import Dropdown from "../Dropdown";
 import s from "./AppHeader.module.scss";
 
 export default class AppHeader extends Component {
-    state = {
-        currency: "",
-    }
+    
+    
+    setCurrency = (currency) => {
+        this.props.setCurrency(currency)
+    } 
 
     render() {
         const { categories } = this.props;
@@ -25,7 +27,7 @@ export default class AppHeader extends Component {
                 ))}
             </nav>
             <Logo className={s.Logo} />
-            <Dropdown/>      
+                    <Dropdown setCurrency={this.setCurrency}/>      
             </div>
             </header>
         )

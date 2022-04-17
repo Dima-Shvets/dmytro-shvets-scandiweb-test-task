@@ -27,7 +27,7 @@ const GET_CATEGORY = gql`
 export default class CategoryView extends Component {
     
     render() {       
-        const { title } = this.props;
+        const { title, currency } = this.props;
         return (
             <Query
                 query={GET_CATEGORY}
@@ -37,7 +37,7 @@ export default class CategoryView extends Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;  
                 return data.category.products.map((product) => (
-                    <ProductCard key={product.id} product={product}/>
+                    <ProductCard key={product.id} product={product} currency={currency}/>
                 ));
             }}
         </Query>

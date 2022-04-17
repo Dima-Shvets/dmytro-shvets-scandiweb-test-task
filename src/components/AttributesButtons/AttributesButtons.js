@@ -18,7 +18,6 @@ export default class AttributesButtons extends Component {
     
     render() { 
         const { attributes } = this.props;
-        console.log(attributes)
         return (
             <div>
                 {attributes.map(attribute => {

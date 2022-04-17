@@ -9,6 +9,7 @@ import ApolloClient from 'apollo-boost';
 import  CategoryView  from './views/CategoryView.js';
 import  ProductDetailsView  from './views/ProductDetailsView/ProductDetailView';
 import AppHeader from './components/AppHeader';
+import { Redirect } from 'react-router-dom';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/',
@@ -36,6 +37,15 @@ const CATEGORIES = gql`
 
 
 class App extends Component {
+  state = {
+    currency: "",
+    cart: []
+  }
+
+  setCurrency = (currency) => {
+    this.setState({currency})
+  }
+
   render() {
     return (
       <ApolloProvider client={client}>
@@ -49,14 +59,17 @@ class App extends Component {
               
               return (
                 <div>
-                  <AppHeader categories={categories}/> 
-                <Switch>
+                  <AppHeader categories={categories} setCurrency={this.setCurrency}/> 
+                  <Switch>
+                    <Route path="/" exact>
+                      <Redirect to={categories[0].name}/>
+                    </Route>
                   {categories.map(({ name }) => (
                     <Route path={`/${name}`} key={name}>
-                      <CategoryView title={name} />
+                      <CategoryView title={name} currency={this.state.currency}/>
                     </Route>))}
                     <Route path={"/:productId"}>
-                      <ProductDetailsView/>
+                      <ProductDetailsView currency={this.state.currency}/>
                     </Route>
                   </Switch>
                 </div>
