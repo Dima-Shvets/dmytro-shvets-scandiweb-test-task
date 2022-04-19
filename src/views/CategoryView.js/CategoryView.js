@@ -12,6 +12,7 @@ const GET_CATEGORY = gql`
       id
       name
       gallery
+      inStock
       prices{
         currency{
           label

@@ -46,6 +46,10 @@ class App extends Component {
     this.setState({currency})
   }
 
+  addToCart = (product) => {
+    this.setState((prevState)=>({cart: [...prevState.cart, product]}))
+  }
+
   render() {
     return (
       <ApolloProvider client={client}>
@@ -69,7 +73,7 @@ class App extends Component {
                       <CategoryView title={name} currency={this.state.currency}/>
                     </Route>))}
                     <Route path={"/:productId"}>
-                      <ProductDetailsView currency={this.state.currency}/>
+                      <ProductDetailsView addToCart={this.addToCart} currency={this.state.currency}/>
                     </Route>
                   </Switch>
                 </div>

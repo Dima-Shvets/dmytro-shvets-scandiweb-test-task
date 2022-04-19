@@ -2,11 +2,16 @@ import { Component } from "react";
 
 export default class AttributesButtons extends Component {
     state = {
-        attributes: this.props.attributes.reduce((a, v) => ({ ...a, [v.name]: v.items[0].value }), {}),
+        attributes: this.setDefaultAttributes(),
     };
     
+    setDefaultAttributes = () => {
+        const defaultAttributes = this.props.attributes.reduce((a, v) => ({ ...a, [v.name]: v.items[0].value }), {});
+        this.props.updateSelectedAtributes(defaultAttributes)
+        return defaultAttributes
+    }
   
-  onInputChange = (e) => {
+    onInputChange = (e) => {
     const { name, value } = e.target;
     this.setState((prevState) => ({
       attributes: {
@@ -14,8 +19,13 @@ export default class AttributesButtons extends Component {
         [name] : value
       },
     }))
+        this.updateSelectedAttributes()
     }
-    
+
+    updateSelectedAttributes = () => {
+        this.props.updateSelectedAtributes(this.state.attributes);
+    }
+
     render() { 
         const { attributes } = this.props;
         return (

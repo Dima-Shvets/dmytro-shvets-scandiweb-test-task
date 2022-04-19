@@ -38,7 +38,18 @@ const GET_PRODUCT = gql`
     `
 
 class ProductDetailsView extends Component {
-  
+  state = {
+        selectedAttributes: {},
+    };
+
+  onButtonClick = (data) => {
+    const selectedAttributes = this.getSelectedAttributes();
+    this.props.addToCart({...data, selectedAttributes})
+  }
+
+  updateSelectedAttributes = (updatedAttributes) => {
+    this.setState({selectedAttributes: updatedAttributes})
+  }
 
   render() {
     const { currency: selectedCurrency } = this.props;
@@ -47,7 +58,8 @@ class ProductDetailsView extends Component {
         return (
             <Query
                 query={GET_PRODUCT}
-                variables={{id: productId}}
+            variables={{ id: productId }}
+            onCompleted={({product})=>(this.setDefaultAttributes(product.attaributes))}
             >
             {({ loading, error, data }) => {
                 if (loading) return <p>Loading...</p>;
@@ -62,12 +74,13 @@ class ProductDetailsView extends Component {
                   <div>
                     <h2>{product.brand}</h2>
                     <p>{product.name}</p>
-                    <AttributesButtons attributes={product.attributes}/>
+                    <AttributesButtons 
+                    updateSelectedAtributes={this.updateAttributes} attributes={product.attributes}/>
                     <div>
                       <h3>Price</h3>
                       <p><span>{selectedCurrencyPrice.currency.symbol}</span>{selectedCurrencyPrice.amount}</p>
                     </div>
-                    <button>Add to cart</button>
+                    <button type="button" onClick={() => (this.onButtonClick(data))}>Add to cart</button>
                     <div dangerouslySetInnerHTML={{__html: product.description} }/>
                   </div>
                   </>
