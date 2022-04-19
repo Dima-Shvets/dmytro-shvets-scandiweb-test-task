@@ -47,6 +47,12 @@ class App extends Component {
   }
 
   addToCart = (product) => {
+    const productInTheCart = this.state.cart.find(item => item.id === product.id);
+
+    if (productInTheCart) {
+      console.log(`Product ${product.name} is already in the cart`)
+      return
+    }
     this.setState((prevState)=>({cart: [...prevState.cart, product]}))
   }
 

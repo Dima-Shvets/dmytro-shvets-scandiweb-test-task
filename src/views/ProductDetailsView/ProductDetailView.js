@@ -42,9 +42,9 @@ class ProductDetailsView extends Component {
         selectedAttributes: {},
     };
 
-  onButtonClick = (data) => {
-    const selectedAttributes = this.getSelectedAttributes();
-    this.props.addToCart({...data, selectedAttributes})
+  onButtonClick = ({product}) => {
+    const selectedAttributes = this.state.selectedAttributes;
+    this.props.addToCart({...product, selectedAttributes, quantity: 1})
   }
 
   updateSelectedAttributes = (updatedAttributes) => {
@@ -59,7 +59,6 @@ class ProductDetailsView extends Component {
             <Query
                 query={GET_PRODUCT}
             variables={{ id: productId }}
-            onCompleted={({product})=>(this.setDefaultAttributes(product.attaributes))}
             >
             {({ loading, error, data }) => {
                 if (loading) return <p>Loading...</p>;
@@ -75,7 +74,8 @@ class ProductDetailsView extends Component {
                     <h2>{product.brand}</h2>
                     <p>{product.name}</p>
                     <AttributesButtons 
-                    updateSelectedAtributes={this.updateAttributes} attributes={product.attributes}/>
+                      updateSelectedAtributes={this.updateSelectedAttributes}
+                      attributes={product.attributes}/>
                     <div>
                       <h3>Price</h3>
                       <p><span>{selectedCurrencyPrice.currency.symbol}</span>{selectedCurrencyPrice.amount}</p>
