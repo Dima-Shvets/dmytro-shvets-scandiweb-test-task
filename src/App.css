@@ -1,3 +1,5 @@
+@import-normalize;
+
 :root {
   --main-text-color: #1D1F22;
   --accent-color: #5ECE7B;

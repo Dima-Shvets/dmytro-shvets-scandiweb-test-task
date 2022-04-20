@@ -4,31 +4,19 @@ export default class AttributesButtons extends Component {
     state = {
         attributes: {},
     };
-
-    componentDidMount() {
-        this.setDefaultAttributes()
+    
+    componentDidUpdate(prevProps, prevState) {
+        
+        if (prevProps.selectedAttributes !== this.props.selectedAttributes) {
+            this.setState({attributes: this.props.selectedAttributes})
+        }
     }
     
-    setDefaultAttributes = () => {
-        const defaultAttributes = this.props.attributes.reduce((a, v) => ({ ...a, [v.name]: v.items[0].value }), {});
-        this.props.updateSelectedAtributes(defaultAttributes)
-        this.setState({attributes: defaultAttributes})
-    }
-  
     onInputChange = (e) => {
     const { name, value } = e.target;
-    this.setState((prevState) => ({
-      attributes: {
-        ...prevState.attributes,
-        [name] : value
-      },
-    }))
-        this.updateSelectedAttributes({ ...this.state.attributes, [name]: value });
+        this.props.updateSelectedAttributes({ [name]: value });
     }
 
-    updateSelectedAttributes = (updatedAttributes) => {
-        this.props.updateSelectedAtributes(updatedAttributes);
-    }
 
     render() { 
         const { attributes } = this.props;
