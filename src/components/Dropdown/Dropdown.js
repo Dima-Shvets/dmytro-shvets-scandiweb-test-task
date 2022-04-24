@@ -53,7 +53,7 @@ export default class Dropdown extends Component {
                     <div className={s.Dropdown}>
                     <p>{this.state.selectedCurrency}</p>        
                     <button
-                        className={s["Dropdown-toggle"]}       
+                        className={s.toggle}       
                         type="button"
                         onClick={this.onToggleClick}>
                                 <DropdownButtonIcon />
@@ -62,7 +62,7 @@ export default class Dropdown extends Component {
                         <ul>
                             {data.currencies.map(({label, symbol}) => (
                                 <li key={label}>
-                                    <button type="button" onClick={()=>this.onCurrencySelect({label, symbol})}>
+                                    <button className={s.button} type="button" onClick={()=>this.onCurrencySelect({label, symbol})}>
                                         <span>{symbol}</span>
                                         {label}
                                     </button>

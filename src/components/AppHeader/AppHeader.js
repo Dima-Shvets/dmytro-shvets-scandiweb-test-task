@@ -18,10 +18,9 @@ export default class AppHeader extends Component {
 
     return (
       <header className={s.AppHeader}>
-        <div className={s["AppHeader-container"]}>
           <nav className={s.AppMenu}>
-            {categories.map(({ name }) => (
-              <NavLink className={s["AppMenu-item"]} key={name} to={`/${name}`}>
+              {categories.map(({ name }) => (  
+              <NavLink className={s.link} activeClassName={s.active} key={name} to={`/${name}`}>
                 {name}
               </NavLink>
             ))}
@@ -34,7 +33,6 @@ export default class AppHeader extends Component {
             cart={cart}
             currency={currency}
           />
-        </div>
       </header>
     );
   }

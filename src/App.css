@@ -25,6 +25,6 @@ ol {
 }
 
 body {
-  color: #1D1F22;
+  color: var(--main-text-color);
   font-family: 'Raleway', sans-serif;
 }

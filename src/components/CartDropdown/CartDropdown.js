@@ -13,6 +13,7 @@ export default class CartDropdown extends Component {
         return (
             <div>
                 <button
+                    className={s.toggle}
                     type="button"
                     onClick={toggleCart}>
                     <CartIcon />

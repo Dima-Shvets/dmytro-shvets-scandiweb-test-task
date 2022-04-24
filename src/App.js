@@ -6,6 +6,7 @@ import { Query } from "@apollo/react-components";
 import { Switch, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 
+import Container from './components/Container';
 import CategoryView from "./views/CategoryView.js";
 import ProductDetailsView from "./views/ProductDetailsView/ProductDetailView";
 import AppHeader from "./components/AppHeader";
@@ -67,7 +68,6 @@ class App extends Component {
     const { cartOpen, currency, cart } = this.state;
     return (
       <ApolloProvider client={client}>
-        <div className="App">
           <Query query={CATEGORIES}>
             {({ loading, error, data }) => {
               if (loading) return <p>Loading...</p>;
@@ -75,7 +75,7 @@ class App extends Component {
               const { categories } = data;
 
               return (
-                <div>
+                <Container>
                   <AppHeader
                     categories={categories}
                     setCurrency={setCurrency}
@@ -102,11 +102,10 @@ class App extends Component {
                       />
                     </Route>
                   </Switch>
-                </div>
+                </Container>
               );
             }}
           </Query>
-        </div>
       </ApolloProvider>
     );
   }
