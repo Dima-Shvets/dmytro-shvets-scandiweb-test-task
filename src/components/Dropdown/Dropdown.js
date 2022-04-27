@@ -40,8 +40,7 @@ export default class Dropdown extends Component {
   };
 
     render() {
-        const { dropdownOpen } = this;
-        const {selectedCurrency} = this.state
+      const { selectedCurrency, dropdownOpen } = this.state;
     return (
       <Query
         query={GET_CURRENCIES}
@@ -58,7 +57,7 @@ export default class Dropdown extends Component {
                 onClick={this.onToggleClick}
               >
                 <span className={s.symbol}>{selectedCurrency}</span>
-                <DropdownButtonIcon className={s.icon} />
+                <DropdownButtonIcon />
               </button>
               {this.state.dropdownOpen && (
                   <ul className={s.dropdownMenu}>

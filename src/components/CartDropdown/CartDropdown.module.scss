@@ -1,14 +1,36 @@
-.toggle{
-    cursor: pointer;
+.dropdown {
+    position: relative;
+    width:20px;
+    height: 20px;
+    margin-top: 34px;
 }
 
-.Modal__backdrop {
+.toggle{
+    border: none;
+    display:block;
+
+    cursor: pointer;
+    background-color: #fff;
+    
+}
+
+.backdrop {
     position: fixed;
-    top: 0;
+    top: 80px;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
+
+    background-color: rgba(57, 55, 72, 0.22);
+}
+
+.wrapper {
+    position: absolute;
+    top: 46px;
+    right: -15px;
+    width:325px;
+
+    background-color: #fff;
 }
 
 .Modal__content {

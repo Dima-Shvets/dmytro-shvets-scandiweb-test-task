@@ -27,4 +27,5 @@ ol {
 body {
   color: var(--main-text-color);
   font-family: 'Raleway', sans-serif;
+  box-sizing: border-box;
 }

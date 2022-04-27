@@ -3,7 +3,9 @@ import { Component } from "react";
 import { gql } from "apollo-boost";
 import { Query } from '@apollo/react-components';
 
-import  ProductCard  from "../../components/ProductCard";
+import ProductCard from "../../components/ProductCard";
+
+import s from './CategoryView.module.scss';
 
 const GET_CATEGORY = gql`
     query Category ($title: String!) {
@@ -30,6 +32,8 @@ export default class CategoryView extends Component {
     render() {       
         const { title, currency } = this.props;
         return (
+            <section className={s.CategoryView}>
+            <h2 className={s.title}>{title}</h2>
             <Query
                 query={GET_CATEGORY}
                 variables={{title}}
@@ -41,7 +45,8 @@ export default class CategoryView extends Component {
                     <ProductCard key={product.id} product={product} currency={currency}/>
                 ));
             }}
-        </Query>
+                </Query>
+                </section>
         )
     }
 }
