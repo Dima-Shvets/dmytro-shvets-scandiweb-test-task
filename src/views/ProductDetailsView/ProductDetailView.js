@@ -80,10 +80,10 @@ class ProductDetailsView extends Component {
           setDefaultAttributes(data.product.attributes);
         }}
       >
+        
         {({ loading, error, data }) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <p>Error :(</p>;
-
           const { product } = data;
           const selectedCurrencyPrice = product.prices.find(
             (price) => price.currency.label === selectedCurrency

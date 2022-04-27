@@ -6,7 +6,7 @@ import { Query } from "@apollo/react-components";
 import { Switch, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 
-import Container from './components/Container';
+import Container from "./components/Container";
 import CategoryView from "./views/CategoryView.js";
 import ProductDetailsView from "./views/ProductDetailsView/ProductDetailView";
 import AppHeader from "./components/AppHeader";
@@ -63,49 +63,91 @@ class App extends Component {
     this.setState(({ cartOpen }) => ({ cartOpen: !cartOpen }));
   };
 
+  // NEED TO CHANGE TO MAP
+
+  changeSelectedAttributes = (changedAttribute, id) => {
+    this.setState(({ cart }) => {
+      const filteredCart = cart.filter((product) => product.id !== id);
+      console.log(filteredCart);
+      const product = cart.find((product) => product.id === id);
+      product.selectedAttributes = {
+        ...product.selectedAttributes,
+        ...changedAttribute,
+      };
+      return { cart: [...filteredCart, product] };
+    });
+  };
+
+  quantityIncrement = (id) => {
+    this.setState(prevState => ({
+      cart: prevState.cart.map(
+        product => product.id === id ? {...product, quantity: product.quantity + 1 } : product)
+      
+    }))
+  }
+
+  quantityDecrement = (id) => {
+    this.setState(prevState => ({
+      cart: prevState.cart.map(
+        product => product.id === id ? {...product, quantity: product.quantity - 1 } : product)
+      
+    }))
+  }
+
+
   render() {
-    const { setCurrency, toggleCart, addToCart } = this;
+    const {
+      setCurrency,
+      toggleCart,
+      addToCart,
+      changeSelectedAttributes,
+      quantityIncrement,
+      quantityDecrement,
+    } = this;
     const { cartOpen, currency, cart } = this.state;
     return (
       <ApolloProvider client={client}>
-          <Query query={CATEGORIES}>
-            {({ loading, error, data }) => {
-              if (loading) return <p>Loading...</p>;
-              if (error) return <p>Error :(</p>;
-              const { categories } = data;
+        <Query query={CATEGORIES}>
+          {({ loading, error, data }) => {
+            if (loading) return <p>Loading...</p>;
+            if (error) return <p>Error :(</p>;
+            const { categories } = data;
 
-              return (
-                <Container>
-                  <AppHeader
-                    categories={categories}
-                    setCurrency={setCurrency}
-                    cartOpen={cartOpen}
-                    toggleCart={toggleCart}
-                    cart={cart}
-                    currency={currency}
-                  />
-                  <Switch>
-                    <Route path="/" exact>
-                      <Redirect to={categories[0].name} />
+            return (
+              <Container>
+                <AppHeader
+                  categories={categories}
+                  setCurrency={setCurrency}
+                  cartOpen={cartOpen}
+                  toggleCart={toggleCart}
+                  cart={cart}
+                  currency={currency}
+                  changeSelectedAttributes={changeSelectedAttributes}
+                  quantityIncrement={quantityIncrement}
+                  quantityDecrement={quantityDecrement}
+                />
+                <Switch>
+                  <Route path="/" exact>
+                    <Redirect to={categories[0].name} />
+                  </Route>
+
+                  {categories.map(({ name }) => (
+                    <Route path={`/${name}`} key={name}>
+                      <CategoryView title={name} currency={currency} />
                     </Route>
+                  ))}
 
-                    {categories.map(({ name }) => (
-                      <Route path={`/${name}`} key={name}>
-                        <CategoryView title={name} currency={currency} />
-                      </Route>
-                    ))}
-
-                    <Route path={"/:productId"}>
-                      <ProductDetailsView
-                        addToCart={addToCart}
-                        currency={currency}
-                      />
-                    </Route>
-                  </Switch>
-                </Container>
-              );
-            }}
-          </Query>
+                  <Route path={"/:productId"}>
+                    <ProductDetailsView
+                      addToCart={addToCart}
+                      currency={currency}
+                    />
+                  </Route>
+                </Switch>
+              </Container>
+            );
+          }}
+        </Query>
       </ApolloProvider>
     );
   }

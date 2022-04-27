@@ -1,25 +1,19 @@
-import { Component } from "react";
+import { Component, } from "react";
 
 export default class AttributesButtons extends Component {
-    state = {
-        attributes: {},
-    };
     
-    componentDidUpdate(prevProps, prevState) {
-        
-        if (prevProps.selectedAttributes !== this.props.selectedAttributes) {
-            this.setState({attributes: this.props.selectedAttributes})
+    onInputChange = (name, value) => {
+        if (this.props.cart) {
+            const {id} = this.props.product
+            this.props.changeSelectedAttributes({ [name]: value }, id);
+            return
         }
-    }
-    
-    onInputChange = (e) => {
-    const { name, value } = e.target;
         this.props.updateSelectedAttributes({ [name]: value });
     }
 
-
     render() { 
         const { attributes } = this.props;
+        console.log()
         return (
             <div>
                 {attributes.map(attribute => {
@@ -29,10 +23,9 @@ export default class AttributesButtons extends Component {
                     <label key={item.id}>
                         <input 
                         type="radio" 
-                        name={attribute.name}
                         value={item.value}
-                        onChange={this.onInputChange}
-                        checked={this.state.attributes[attribute.name] === item.value}
+                        onChange={()=>this.onInputChange(attribute.name, item.value)}
+                        checked={this.props.selectedAttributes[attribute.name] === item.value}
                         >
                         </input>
                         {attribute.type === "text" ? item.displayValue: item.value} 
