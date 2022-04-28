@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
+import s from './ProductCard.modul.scss'
 
 export default class ProductCard extends Component {
 
@@ -12,7 +13,7 @@ export default class ProductCard extends Component {
         const selectedCurrencyPrice = prices.find(price => (price.currency.label === selectedCurrency))
 
         return (
-            <Link to={{pathname: `/${id}`}}>
+            <Link className={s.link} to={{pathname: `/${id}`}}>
                 <img width={300} src={gallery[0]} alt={name}/>
                 <p>{name}</p>
                 <p><span>{selectedCurrencyPrice.currency.symbol}</span>{selectedCurrencyPrice.amount}</p>
