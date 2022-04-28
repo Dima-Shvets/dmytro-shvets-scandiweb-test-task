@@ -39,7 +39,7 @@ export default class CategoryView extends Component {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error :(</p>;
             return (
-              <ul className={s.wrapper}>
+              <ul className={s.cardContainer}>
                 {data.category.products.map((product) => (
                   <li key={product.id} className={s.card}>
                     <ProductCard

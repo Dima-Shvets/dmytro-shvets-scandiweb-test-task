@@ -66,21 +66,11 @@ class App extends Component {
   // NEED TO CHANGE TO MAP
 
   changeSelectedAttributes = (changedAttribute, id) => {
-    this.setState(({ cart }) => {
-      const filteredCart = cart.filter((product) => product.id !== id);
-      console.log(filteredCart);
-      const product = cart.find((product) => product.id === id);
-      product.selectedAttributes = {
-        ...product.selectedAttributes,
-        ...changedAttribute,
-      };
-      return { cart: [...filteredCart, product] };
-    });
-    // this.setState(prevState => ({
-    //   cart: prevState.cart.map(
-    //     product => product.id === id ? {product, selectedAttributes: changedAttribute} : product
-    //   )
-    // }))
+    this.setState(prevState => ({
+      cart: prevState.cart.map(
+        product => product.id === id ? {...product, selectedAttributes: {...product.selectedAttributes, ...changedAttribute}} : product
+      )
+    }))
   };
 
   quantityIncrement = (id) => {
@@ -94,7 +84,12 @@ class App extends Component {
   quantityDecrement = (id) => {
     this.setState(prevState => ({
       cart: prevState.cart.map(
-        product => product.id === id ? {...product, quantity: product.quantity - 1 } : product)
+        product => {
+          if (product.quantity === 1) {
+            return product
+          }
+          return product.id === id ? { ...product, quantity: product.quantity - 1 } : product
+        })
       
     }))
   }

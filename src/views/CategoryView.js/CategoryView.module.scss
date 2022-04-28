@@ -11,3 +11,21 @@
     text-transform: capitalize;
 }
 
+.cardContainer {
+    display:grid;
+    grid-template-columns: 386px 386px 386px;
+    grid-column-gap: 40px;
+    grid-row-gap: 103px;
+    // grid-auto-rows: minmax(100px, auto);
+}
+
+.card {
+    box-sizing: border-box;
+    outline:1px solid tomato;
+    width: 386px;
+    padding: 16px;
+}
+
+.card:hover{
+    box-shadow: 0px 4px 35px 0px #A8ACB030;
+}

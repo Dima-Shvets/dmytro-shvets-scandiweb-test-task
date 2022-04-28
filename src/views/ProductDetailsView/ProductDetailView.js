@@ -71,7 +71,6 @@ class ProductDetailsView extends Component {
     const { selectedAttributes } = this.state;
 
     const { productId } = this.props.match.params;
-
     return (
       <Query
         query={GET_PRODUCT}

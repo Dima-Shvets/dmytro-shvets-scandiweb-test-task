@@ -18,7 +18,7 @@ export default class AttributesButtons extends Component {
             <div>
                 {attributes.map(attribute => {
                 return (<div key={attribute.id}>
-                    <h3>{attribute.name}</h3>
+                    <p>{attribute.name}</p>
                     {attribute.items.map(item => (
                     <label key={item.id}>
                         <input 
