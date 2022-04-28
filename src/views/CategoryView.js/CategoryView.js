@@ -27,6 +27,7 @@ const GET_CATEGORY = gql`
   }
 `;
 
+
 export default class CategoryView extends Component {
   render() {
     const { title, currency } = this.props;
@@ -40,9 +41,8 @@ export default class CategoryView extends Component {
             return (
               <ul className={s.wrapper}>
                 {data.category.products.map((product) => (
-                  <li className={s.card}>
+                  <li key={product.id} className={s.card}>
                     <ProductCard
-                      key={product.id}
                       product={product}
                       currency={currency}
                     />

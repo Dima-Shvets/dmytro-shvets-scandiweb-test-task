@@ -76,6 +76,11 @@ class App extends Component {
       };
       return { cart: [...filteredCart, product] };
     });
+    // this.setState(prevState => ({
+    //   cart: prevState.cart.map(
+    //     product => product.id === id ? {product, selectedAttributes: changedAttribute} : product
+    //   )
+    // }))
   };
 
   quantityIncrement = (id) => {

@@ -1,7 +1,9 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-import s from './ProductCard.modul.scss'
+import s from './ProductCard.module.scss';
+
+
 
 export default class ProductCard extends Component {
 

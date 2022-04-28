@@ -2,6 +2,8 @@ import { Component } from "react";
 
 import AttributesButtons from "../AttributesButtons";
 
+import s from './Cart.module.scss'
+
 export default class Cart extends Component {
 
     findSelectedCurrencyPrice = (item, selectedCurrency) => {
@@ -14,6 +16,11 @@ export default class Cart extends Component {
 
    onDecrementClick = (productId) => {
     this.props.quantityDecrement(productId)
+  }
+
+  // Need to write reducer to calculate total ammount
+  calculateTotal = (cart) => {
+
   }
     
   render() {
@@ -43,8 +50,11 @@ export default class Cart extends Component {
                 <p>{item.quantity}</p>
                 <button onClick={()=>{onDecrementClick(item.id)}}>-</button>
               </div>
+              <img src={item.gallery[0]} alt={item.name} className={s.image} />
+              <img src={item.gallery[0]} alt={item.name} className={s.image} />
           </div>)
         })}
+      
       </div>
     );
   }
