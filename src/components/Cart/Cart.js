@@ -6,8 +6,8 @@ import s from './Cart.module.scss'
 
 export default class Cart extends Component {
 
-    findSelectedCurrencyPrice = (item, selectedCurrency) => {
-        return item.prices.find(price => (price.currency.label === selectedCurrency))
+  findSelectedCurrencyPrice = (item, selectedCurrency) => {
+        return item.prices.find(price => price.currency.label === selectedCurrency)
   }
   
   onIncrementClick = (productId) => {
@@ -20,11 +20,15 @@ export default class Cart extends Component {
 
   // Need to write reducer to calculate total ammount
   calculateTotal = (cart) => {
-    cart.reduce((a, v)=> (a+ v), 0)
+    return cart.reduce((a, v) =>
+    { 
+      const selectedCurrencyPrice = this.findSelectedCurrencyPrice(v, this.props.currency);
+      return a + selectedCurrencyPrice.amount;
+    }, 0)
   }
     
   render() {
-    const { onIncrementClick, onDecrementClick } = this;
+    const { onIncrementClick, onDecrementClick, calculateTotal } = this;
     const { cart, currency } = this.props;
     const cartQuantity = cart.length;
     return (
@@ -33,7 +37,7 @@ export default class Cart extends Component {
           <span>My Bag,</span> {cartQuantity} {cartQuantity === 1 ? "item" : "items"}
         </h2>
         {cart.map((item) => {
-            const selectedCurrencyPrice = this.findSelectedCurrencyPrice(item, currency)
+          const selectedCurrencyPrice = this.findSelectedCurrencyPrice(item, currency)
           return (<div className={s.product} key={item.id}>
             <div className={s.informationWrapper}>
             <p className={s.text}>{item.brand}</p>
@@ -55,7 +59,7 @@ export default class Cart extends Component {
               <img src={item.gallery[0]} alt={item.name} className={s.image} />
           </div>)
         })}
-        <p>Total {}</p>
+        <p>Total {calculateTotal(cart)}</p>
       </div>
     );
   }
