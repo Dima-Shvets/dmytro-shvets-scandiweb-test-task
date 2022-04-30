@@ -15,9 +15,9 @@ export default class ProductCard extends Component {
 
         return (
             <Link className={s.link} to={`/${id}`}>
-                <div className={s.pictureWrapper}>
+                {/* <div className={s.pictureWrapper}> */}
                 <img className={s.picture} width={354} src={gallery[0]} alt={name} />
-                </div>
+                {/* </div> */}
                 <p className={s.name}>{name}</p>
                 <p className={s.price}>{selectedCurrencyPrice.currency.symbol}{selectedCurrencyPrice.amount}</p>
             </Link>
