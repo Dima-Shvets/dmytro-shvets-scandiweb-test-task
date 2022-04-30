@@ -1,0 +1,96 @@
+.groupCatainer:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.groupName {
+  margin-bottom: 8px;
+}
+
+.dropdownGroupName {
+  composes: groupName;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.1em;
+}
+
+.dropdownGroupName.color {
+  margin-bottom: 10px;
+}
+
+.viewGroupName {
+  composes: groupName;
+  font-family: var(--secondary-font);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1em;
+}
+
+.btnsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dropdownBtnsContainer {
+    composes: btnsContainer;
+    margin: -4px;
+}
+
+.viewBtnsContainer {
+    composes: btnsContainer;
+    margin: -6px;
+}
+
+.dropdownBtnWrapper {
+  margin: 4px;
+}
+
+.viewBtnWrapper {
+    margin: 6px;
+}
+
+
+.btn {
+  appearance: none;
+  position: absolute;
+
+  &:checked + .dropDownLabel {
+    background-color: var(--main-text-color);
+    border: 1px solid var(--main-text-color);
+    color: #fff;
+  }
+
+  &:checked + .dropDownColorLabel {
+    outline: 1px solid var(--accent-color);
+  }
+}
+
+.label {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropDownColorLabel {
+  composes: label;
+  border: 1px solid #fff;
+  height: 16px;
+  width: 16px;
+}
+
+.dropDownLabel {
+  composes: label;
+
+  padding-left: 4px;
+  padding-right: 4px;
+  border: 1px solid var(--dropdown-btn-text-color);
+  height: 24px;
+  min-width: 24px;
+
+  font-family: var(--dropdown-buttons-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6em;
+  color: var(--dropdown-btn-text-color);
+  background-color: rgba(166, 166, 166, 0.2);
+}

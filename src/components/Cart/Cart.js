@@ -20,7 +20,7 @@ export default class Cart extends Component {
   }
 
   
-  calculateTotalQuantity = (cart) => {
+  calculateTotalAmount = (cart) => {
     return cart.reduce((a, v) =>
     { 
       const selectedCurrencyPrice = this.findSelectedCurrencyPrice(v, this.props.currency);
@@ -29,10 +29,9 @@ export default class Cart extends Component {
   }
 
   render() {
-    const { onIncrementClick, onDecrementClick, calculateTotalQuantity } = this;
-    const { cart, currency } = this.props;
-    const cartQuantity = cart.length;
-    const totalQuantity = calculateTotalQuantity(cart)
+    const { onIncrementClick, onDecrementClick, calculateTotalAmount } = this;
+    const { cart, currency, cartQuantity, dropdown, type } = this.props;
+    const totalAmount = calculateTotalAmount(cart)
     return (
       <div className={s.cart}>
         <h2 className={s.title}>
@@ -46,7 +45,8 @@ export default class Cart extends Component {
             <p className={s.text}>{item.name}</p>
             <p className={s.price}><span>{selectedCurrencyPrice.currency.symbol}</span>{selectedCurrencyPrice.amount}</p>
               <AttributesButtons
-                    cart
+                dropdown={dropdown}
+                type={type}
                     product={item}
                     changeSelectedAttributes={this.props.changeSelectedAttributes}
                     attributes={item.attributes}
@@ -61,7 +61,7 @@ export default class Cart extends Component {
               <img src={item.gallery[0]} alt={item.name} className={s.image} width='121' />
           </div>)
         })}
-        <p className={s.total}>Total {totalQuantity}</p>
+        <p className={s.total}>Total <span>{totalAmount}</span></p>
       <div className={s.buttonsWrapper}>
           <Link to='/cart' className={s.link}>View bag</Link>
           <button type='button' className={s.btn}>CHECK OUT</button>

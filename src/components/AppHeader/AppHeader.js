@@ -14,6 +14,10 @@ export default class AppHeader extends Component {
     this.props.setCurrency(currency);
   };
 
+  calculateCartQuantity = (cart) => {
+    return cart.reduce((a, v) => a + v.quantity, 0);
+  };
+
   render() {
     const {
       categories,
@@ -25,7 +29,7 @@ export default class AppHeader extends Component {
       quantityDecrement,
       changeSelectedAttributes,
     } = this.props;
-
+    const cartQuantity = this.calculateCartQuantity(cart);
     return (
       <header className={s.AppHeader}>
         <nav className={s.AppMenu}>
@@ -42,10 +46,16 @@ export default class AppHeader extends Component {
         </nav>
         <Logo className={s.Logo} />
         <Dropdown setCurrency={this.setCurrency} />
-        <CartDropdown cartOpen={cartOpen} toggleCart={toggleCart} >
+        <CartDropdown
+          cartOpen={cartOpen}
+          toggleCart={toggleCart}
+          cartQuantity={cartQuantity}
+        >
           <Cart
+            type='dropdown'
             cart={cart}
             currency={currency}
+            cartQuantity={cartQuantity}
             changeSelectedAttributes={changeSelectedAttributes}
             quantityIncrement={quantityIncrement}
             quantityDecrement={quantityDecrement}

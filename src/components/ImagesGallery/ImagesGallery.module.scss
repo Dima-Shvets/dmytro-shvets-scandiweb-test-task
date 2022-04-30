@@ -1,0 +1,11 @@
+.gallery {
+    display: flex;
+}
+
+.list{ 
+    margin-right: 40px;
+}
+
+.item:not(:last-child) {
+    margin-bottom: 40px;
+}

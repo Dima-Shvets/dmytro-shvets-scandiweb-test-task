@@ -4,11 +4,18 @@
     padding-right: 16px;
     padding-bottom: 32px;
     width: 325px;
+    max-height: 80vh;
     box-sizing: border-box;
+
+    overflow-y: auto;
 }
 
 .product {
     display: flex;
+}
+
+.product:not(:last-child) {
+    margin-bottom: 40px;
 }
 
 .title{
@@ -28,7 +35,7 @@
 
 
 .informationWrapper {
-    width:136px;
+    width:164px;
 }
 
 .text {
@@ -66,7 +73,10 @@
 }
 
 .quantityBtn {
-    display: block;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 24px;
     height: 24px;
     border: 1px solid var(--main-text-color);
@@ -82,6 +92,8 @@
 }
 
 .total {
+    display: flex;
+    justify-content: space-between;
     margin-top: 42px;
 
     font-size: 16px;
@@ -92,7 +104,6 @@
 
 .buttonsWrapper {
     display: flex;
-    justify-content: space-between;
     margin-top: 32px;
 }
 
@@ -101,6 +112,7 @@
     min-width: 140px;
     padding-top: 13px;
     padding-bottom: 13px;
+    margin-right: 12px;
     border: 1px solid var(--main-text-color);
 
     text-align: center;

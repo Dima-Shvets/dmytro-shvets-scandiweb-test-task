@@ -7,6 +7,8 @@ import { withRouter } from "react-router";
 import AttributesButtons from "../../components/AttributesButtons";
 import ImagesGallery from "../../components/ImagesGallery";
 
+import s from './ProductDetailsView.module.scss';
+
 const GET_PRODUCT = gql`
   query Category($id: String!) {
     product(id: $id) {
@@ -89,31 +91,32 @@ class ProductDetailsView extends Component {
           );
 
           return (
-            <>
+            <section className={s.section}>
               <ImagesGallery gallery={product.gallery} name={product.name} />
-              <div>
-                <h2>{product.brand}</h2>
-                <p>{product.name}</p>
+              <div className={s.contentWrapper}>
+                <h2 className={s.title}>{product.brand}</h2>
+                <p className={s.name}>{product.name}</p>
                 <AttributesButtons
+                  type='view'
                   updateSelectedAttributes={updateSelectedAttributes}
                   attributes={product.attributes}
                   selectedAttributes={selectedAttributes}
                 />
-                <div>
-                  <h3>Price</h3>
-                  <p>
-                    <span>{selectedCurrencyPrice.currency.symbol}</span>
+                <div className={s.priceWapper}>
+                  <h3 className={s.priceTitle}>Price:</h3>
+                  <p className={s.priceText}>
+                    {selectedCurrencyPrice.currency.symbol}
                     {selectedCurrencyPrice.amount}
                   </p>
                 </div>
-                <button type="button" onClick={() => onButtonClick(data)}>
+                <button className={s.addBtn} type="button" onClick={() => onButtonClick(data)}>
                   Add to cart
                 </button>
                 <div
                   dangerouslySetInnerHTML={{ __html: product.description }}
                 />
               </div>
-            </>
+            </section>
           );
         }}
       </Query>
