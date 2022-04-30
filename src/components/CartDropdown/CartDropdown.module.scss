@@ -2,7 +2,8 @@
     position: relative;
     width:20px;
     height: 20px;
-    margin-top: 34px;
+    padding-top: 34px;
+    padding-bottom: 28px;
 }
 
 .toggle{
@@ -11,24 +12,15 @@
 
     cursor: pointer;
     background-color: #fff;
-    
 }
 
-.backdrop {
-    position: fixed;
-    top: 80px;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-
-    background-color: rgba(57, 55, 72, 0.22);
-}
+.quantity
 
 .wrapper {
     position: absolute;
-    top: 46px;
+    top: 100%;
     right: -15px;
-    // width:325px;
+    width:325px;
 
     background-color: #fff;
 }

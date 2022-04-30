@@ -42,7 +42,7 @@ export default class AppHeader extends Component {
         </nav>
         <Logo className={s.Logo} />
         <Dropdown setCurrency={this.setCurrency} />
-        <CartDropdown cartOpen={cartOpen} toggleCart={toggleCart}>
+        <CartDropdown cartOpen={cartOpen} toggleCart={toggleCart} >
           <Cart
             cart={cart}
             currency={currency}

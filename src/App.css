@@ -3,6 +3,8 @@
 :root {
   --main-text-color: #1D1F22;
   --accent-color: #5ECE7B;
+  --main-font: 'Raleway', sans-serif;
+  --secondary-font: 'Roboto', sans-serif;
 }
 
 h1,
@@ -26,6 +28,6 @@ ol {
 
 body {
   color: var(--main-text-color);
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--main-font);
   box-sizing: border-box;
 }

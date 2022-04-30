@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 
 import AttributesButtons from "../AttributesButtons";
 
@@ -18,19 +19,20 @@ export default class Cart extends Component {
     this.props.quantityDecrement(productId)
   }
 
-  // Need to write reducer to calculate total ammount
-  calculateTotal = (cart) => {
+  
+  calculateTotalQuantity = (cart) => {
     return cart.reduce((a, v) =>
     { 
       const selectedCurrencyPrice = this.findSelectedCurrencyPrice(v, this.props.currency);
       return a + selectedCurrencyPrice.amount;
     }, 0)
   }
-    
+
   render() {
-    const { onIncrementClick, onDecrementClick, calculateTotal } = this;
+    const { onIncrementClick, onDecrementClick, calculateTotalQuantity } = this;
     const { cart, currency } = this.props;
     const cartQuantity = cart.length;
+    const totalQuantity = calculateTotalQuantity(cart)
     return (
       <div className={s.cart}>
         <h2 className={s.title}>
@@ -55,12 +57,17 @@ export default class Cart extends Component {
                 <button className={s.quantityBtn} onClick={()=>{onIncrementClick(item.id)}}>+</button>
                 <p className={s.quantity}>{item.quantity}</p>
                 <button className={s.quantityBtn} onClick={()=>{onDecrementClick(item.id)}}>-</button>
-              </div>
-              <img src={item.gallery[0]} alt={item.name} className={s.image} />
+            </div>
+              <img src={item.gallery[0]} alt={item.name} className={s.image} width='121' />
           </div>)
         })}
-        <p>Total {calculateTotal(cart)}</p>
+        <p className={s.total}>Total {totalQuantity}</p>
+      <div className={s.buttonsWrapper}>
+          <Link to='/cart' className={s.link}>View bag</Link>
+          <button type='button' className={s.btn}>CHECK OUT</button>
       </div>
+      </div>
+
     );
   }
 }
