@@ -67,33 +67,43 @@ class App extends Component {
   // NEED TO CHANGE TO MAP
 
   changeSelectedAttributes = (changedAttribute, id) => {
-    this.setState(prevState => ({
-      cart: prevState.cart.map(
-        product => product.id === id ? {...product, selectedAttributes: {...product.selectedAttributes, ...changedAttribute}} : product
-      )
-    }))
+    this.setState((prevState) => ({
+      cart: prevState.cart.map((product) =>
+        product.id === id
+          ? {
+              ...product,
+              selectedAttributes: {
+                ...product.selectedAttributes,
+                ...changedAttribute,
+              },
+            }
+          : product
+      ),
+    }));
   };
 
   quantityIncrement = (id) => {
-    this.setState(prevState => ({
-      cart: prevState.cart.map(
-        product => product.id === id ? {...product, quantity: product.quantity + 1 } : product)
-      
-    }))
-  }
+    this.setState((prevState) => ({
+      cart: prevState.cart.map((product) =>
+        product.id === id
+          ? { ...product, quantity: product.quantity + 1 }
+          : product
+      ),
+    }));
+  };
 
   quantityDecrement = (id) => {
-    this.setState(prevState => ({
-      cart: prevState.cart.map(
-        product => {
-          if (product.quantity === 1) {
-            return product
-          }
-          return product.id === id ? { ...product, quantity: product.quantity - 1 } : product
-        })
-      
-    }))
-  }
+    this.setState((prevState) => ({
+      cart: prevState.cart.map((product) => {
+        if (product.quantity === 1) {
+          return product;
+        }
+        return product.id === id
+          ? { ...product, quantity: product.quantity - 1 }
+          : product;
+      }),
+    }));
+  };
 
   calculateCartQuantity = (cart) => {
     return cart.reduce((a, v) => a + v.quantity, 0);
@@ -140,18 +150,22 @@ class App extends Component {
 
                   {categories.map(({ name }) => (
                     <Route path={`/${name}`} key={name}>
-                      <CategoryView title={name} currency={currency} />
+                      <CategoryView
+                        title={name}
+                        currency={currency}
+                        addToCart={addToCart}
+                      />
                     </Route>
                   ))}
 
-                  <Route path={"/cart"} >
+                  <Route path={"/cart"}>
                     <CartView
                       cart={cart}
-                  cartQuantity={cartQuantity}
-                  currency={currency}
-                  changeSelectedAttributes={changeSelectedAttributes}
-                  quantityIncrement={quantityIncrement}
-                  quantityDecrement={quantityDecrement}
+                      cartQuantity={cartQuantity}
+                      currency={currency}
+                      changeSelectedAttributes={changeSelectedAttributes}
+                      quantityIncrement={quantityIncrement}
+                      quantityDecrement={quantityDecrement}
                     />
                   </Route>
 
