@@ -17,17 +17,11 @@ const client = new ApolloClient({
   uri: "http://localhost:4000/",
 });
 
-// client
-//   .query({
-//     query: gql`
-//       {
-//   categories{
-//     name
-//   }
-// }
-//     `
-//   })
-//   .then(result => console.log(result));
+
+// add portal for dropdowns
+// change paths for router
+// check code for refactoring needs 
+// add opportunity to add goods with different attributes
 
 const CATEGORIES = gql`
   {
