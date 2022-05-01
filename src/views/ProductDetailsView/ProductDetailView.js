@@ -96,12 +96,13 @@ class ProductDetailsView extends Component {
               <div className={s.contentWrapper}>
                 <h2 className={s.title}>{product.brand}</h2>
                 <p className={s.name}>{product.name}</p>
+                {product.attributes &&
                 <AttributesButtons
                   type='view'
-                  updateSelectedAttributes={updateSelectedAttributes}
+                  changeSelectedAttributes={updateSelectedAttributes}
                   attributes={product.attributes}
                   selectedAttributes={selectedAttributes}
-                />
+                />}
                 <div className={s.priceWapper}>
                   <h3 className={s.priceTitle}>Price:</h3>
                   <p className={s.priceText}>

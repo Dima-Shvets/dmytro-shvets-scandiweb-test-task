@@ -52,16 +52,26 @@
 .btn {
   appearance: none;
   position: absolute;
+}
 
-  &:checked + .dropDownLabel {
-    background-color: var(--main-text-color);
-    border: 1px solid var(--main-text-color);
-    color: #fff;
-  }
+.btn:checked+.dropdownLabel {
+  background-color: var(--main-text-color);
+  border: 1px solid var(--main-text-color);
+  color: #fff;
+}
 
-  &:checked + .dropDownColorLabel {
-    outline: 1px solid var(--accent-color);
-  }
+.btn:checked+.viewLabel {
+  background-color: var(--main-text-color);
+  border: 1px solid var(--main-text-color);
+  color: #fff;
+}
+
+.btn:checked+.dropdownColorLabel {
+  outline: 1px solid var(--accent-color);
+}
+
+.btn:checked+.viewColorLabel {
+  outline: 1px solid var(--accent-color);
 }
 
 .label {
@@ -71,14 +81,21 @@
   cursor: pointer;
 }
 
-.dropDownColorLabel {
+.dropdownColorLabel {
   composes: label;
   border: 1px solid #fff;
   height: 16px;
   width: 16px;
 }
 
-.dropDownLabel {
+.viewColorLabel {
+  composes: label;
+  border: 1px solid #fff;
+  height: 32px;
+  width: 32px;
+}
+
+.dropdownLabel {
   composes: label;
 
   padding-left: 4px;
@@ -93,4 +110,21 @@
   line-height: 1.6em;
   color: var(--dropdown-btn-text-color);
   background-color: rgba(166, 166, 166, 0.2);
+}
+
+.viewLabel {
+  composes: label;
+  padding-left: 14px;
+  padding-right: 14px;
+  border: 1px solid var(--main-text-color);
+  height: 45px;
+  min-width: 65px;
+  
+  font-family: var(--dropdown-buttons-font);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.13em;
+  letter-spacing: 0.05em;
+  color: var(--secondary-dark-color);
+  background-color: #fff;
 }

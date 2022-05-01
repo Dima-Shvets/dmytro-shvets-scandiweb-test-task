@@ -1,7 +1,12 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
+import { ReactComponent as HorisontalLine } from "./horisontal.svg";
+import { ReactComponent as VerticalLine } from "./vertical.svg";
+
+
 import AttributesButtons from "../AttributesButtons";
+import ImagesCarousel from "../ImagesCarousel/ImagesCarousel";
 
 import s from './Cart.module.scss'
 
@@ -19,53 +24,75 @@ export default class Cart extends Component {
     this.props.quantityDecrement(productId)
   }
 
-  
+  onLinkClick = () => {
+    this.props.toggleCart();
+  }
+
+
+   
   calculateTotalAmount = (cart) => {
     return cart.reduce((a, v) =>
     { 
       const selectedCurrencyPrice = this.findSelectedCurrencyPrice(v, this.props.currency);
-      return a + selectedCurrencyPrice.amount;
+      return a + (v.quantity * selectedCurrencyPrice.amount);
     }, 0)
   }
 
   render() {
-    const { onIncrementClick, onDecrementClick, calculateTotalAmount } = this;
+    const { onIncrementClick, onDecrementClick, calculateTotalAmount, showPrevPicture, showNextPicture } = this;
     const { cart, currency, cartQuantity, dropdown, type } = this.props;
-    const totalAmount = calculateTotalAmount(cart)
+    const totalAmount = calculateTotalAmount(cart);
+    const tax = (totalAmount * 0.12).toFixed(2);
     return (
-      <div className={s.cart}>
+      <div className={s[`${type}Cart`]}>
+        {type === 'dropdown' &&
         <h2 className={s.title}>
           <span>My Bag,</span> {cartQuantity} {cartQuantity === 1 ? "item" : "items"}
-        </h2>
+        </h2>}
         {cart.map((item) => {
           const selectedCurrencyPrice = this.findSelectedCurrencyPrice(item, currency)
-          return (<div className={s.product} key={item.id}>
-            <div className={s.informationWrapper}>
-            <p className={s.text}>{item.brand}</p>
-            <p className={s.text}>{item.name}</p>
-            <p className={s.price}><span>{selectedCurrencyPrice.currency.symbol}</span>{selectedCurrencyPrice.amount}</p>
-              <AttributesButtons
+          return (<div className={s[`${type}Product`]} key={item.id}>
+            <div className={s[`${type}InformationWrapper`]}>
+            <p className={s[`${type}Brand`]}>{item.brand}</p>
+            <p className={s[`${type}Name`]}>{item.name}</p>
+            <p className={s[`${type}Price`]}><span>{selectedCurrencyPrice.currency.symbol}</span>{selectedCurrencyPrice.amount}</p>
+              {item.attributes &&
+                <AttributesButtons
+                cart
                 dropdown={dropdown}
                 type={type}
                     product={item}
                     changeSelectedAttributes={this.props.changeSelectedAttributes}
                     attributes={item.attributes}
                     selectedAttributes={item.selectedAttributes}
-              />
+              />}
               </div>
               <div className={s.quantityWrapper}>
-                <button className={s.quantityBtn} onClick={()=>{onIncrementClick(item.id)}}>+</button>
-                <p className={s.quantity}>{item.quantity}</p>
-                <button className={s.quantityBtn} onClick={()=>{onDecrementClick(item.id)}}>-</button>
+                <button className={s[`${type}QuantityBtn`]} onClick={()=>{onIncrementClick(item.id)}}><HorisontalLine/><VerticalLine/></button>
+                <p className={s[`${type}Quantity`]}>{item.quantity}</p>
+                <button className={s[`${type}QuantityBtn`]} onClick={()=>{onDecrementClick(item.id)}}><HorisontalLine/></button>
             </div>
-              <img src={item.gallery[0]} alt={item.name} className={s.image} width='121' />
-          </div>)
+            <ImagesCarousel
+              type={type}
+              gallery={item.gallery}
+              name={item.name}
+            />
+            </div>)
         })}
-        <p className={s.total}>Total <span>{totalAmount}</span></p>
-      <div className={s.buttonsWrapper}>
-          <Link to='/cart' className={s.link}>View bag</Link>
-          <button type='button' className={s.btn}>CHECK OUT</button>
-      </div>
+        {type === 'view' &&
+          <>
+          <p className={s.tax}>Tax: <span>{tax}</span></p> 
+          <p className={s.quantity}>Qty: <span>{cartQuantity}</span></p>
+          </>
+}
+        <p className={s[`${type}Total`]}>Total <span>{totalAmount}</span></p>
+        { type === 'dropdown' && cart.length !== 0 &&
+        <div className={s.buttonsWrapper}>
+          <Link className={s.link} to='/cart' onClick={this.onLinkClick}>View bag</Link>
+          <button type='button' className={s.dropdownBtn}>CHECK OUT</button>
+          </div>}
+        { type === 'view' && cart.length !== 0 &&
+          <button type='button' className={s.viewBtn}>order</button>}
       </div>
 
     );

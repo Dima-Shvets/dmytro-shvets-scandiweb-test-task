@@ -1,0 +1,34 @@
+.imageWrapper {
+    position: relative;
+    align-self: center;
+}
+
+.dropdownImage {
+    width: 121px;
+}
+
+.viewImage {
+    width: 200px;
+}
+
+.carouselBtns {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+}
+
+.carouselBtns button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    width: 24px;
+    height: 24px;
+
+    background-color: rgba(0, 0, 0, 0.73);
+    cursor: pointer;
+}
+
+.carouselBtns button:not(:last-child) {
+    margin-right: 8px;
+}

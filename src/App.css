@@ -2,8 +2,10 @@
 
 :root {
   --main-text-color: #1D1F22;
+  --secondary-dark-color: #292929;
   --accent-color: #5ECE7B;
   --dropdown-btn-text-color: #A6A6A6;
+  --cart-border-color: #E5E5E5;
   --main-font: 'Raleway', sans-serif;
   --secondary-font: 'Roboto', sans-serif;
   --dropdown-buttons-font: 'Source Sans Pro',

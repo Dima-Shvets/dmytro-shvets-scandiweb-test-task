@@ -7,8 +7,9 @@ import { Switch, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 
 import Container from "./components/Container";
-import CategoryView from "./views/CategoryView.js";
+import CategoryView from "./views/CategoryView/index.js";
 import ProductDetailsView from "./views/ProductDetailsView/ProductDetailView";
+import CartView from "./views/CartView";
 import AppHeader from "./components/AppHeader";
 import { Redirect } from "react-router-dom";
 
@@ -94,6 +95,9 @@ class App extends Component {
     }))
   }
 
+  calculateCartQuantity = (cart) => {
+    return cart.reduce((a, v) => a + v.quantity, 0);
+  };
 
   render() {
     const {
@@ -105,6 +109,8 @@ class App extends Component {
       quantityDecrement,
     } = this;
     const { cartOpen, currency, cart } = this.state;
+
+    const cartQuantity = this.calculateCartQuantity(cart);
     return (
       <ApolloProvider client={client}>
         <Query query={CATEGORIES}>
@@ -117,11 +123,12 @@ class App extends Component {
               <Container>
                 <AppHeader
                   categories={categories}
-                  setCurrency={setCurrency}
                   cartOpen={cartOpen}
-                  toggleCart={toggleCart}
                   cart={cart}
+                  cartQuantity={cartQuantity}
                   currency={currency}
+                  toggleCart={toggleCart}
+                  setCurrency={setCurrency}
                   changeSelectedAttributes={changeSelectedAttributes}
                   quantityIncrement={quantityIncrement}
                   quantityDecrement={quantityDecrement}
@@ -136,6 +143,17 @@ class App extends Component {
                       <CategoryView title={name} currency={currency} />
                     </Route>
                   ))}
+
+                  <Route path={"/cart"} >
+                    <CartView
+                      cart={cart}
+                  cartQuantity={cartQuantity}
+                  currency={currency}
+                  changeSelectedAttributes={changeSelectedAttributes}
+                  quantityIncrement={quantityIncrement}
+                  quantityDecrement={quantityDecrement}
+                    />
+                  </Route>
 
                   <Route path={"/:productId"}>
                     <ProductDetailsView

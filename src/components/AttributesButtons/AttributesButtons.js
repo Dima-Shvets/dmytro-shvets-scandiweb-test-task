@@ -11,7 +11,7 @@ export default class AttributesButtons extends Component {
       this.props.changeSelectedAttributes({ [name]: value }, id);
       return;
     }
-    this.props.updateSelectedAttributes({ [name]: value });
+    this.props.changeSelectedAttributes({ [name]: value });
   };
 
   render() {
@@ -41,10 +41,10 @@ export default class AttributesButtons extends Component {
                         }
                       ></input>
                       {attribute.type === "text"?
-                        < label htmlFor={btnId} className={s.dropDownLabel}>
+                        < label htmlFor={btnId} className={s[`${type}Label`]}>
                       {item.displayValue}
                       </label>: 
-                    < label htmlFor={btnId} className={s.dropDownColorLabel} style={{backgroundColor: `${item.displayValue}`}}></label>
+                    < label htmlFor={btnId} className={s[`${type}ColorLabel`]} style={{backgroundColor: `${item.displayValue}`}}></label>
               }
                   </div>
                 );
