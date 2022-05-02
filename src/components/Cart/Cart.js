@@ -39,7 +39,7 @@ export default class Cart extends Component {
   }
 
   render() {
-    const { onIncrementClick, onDecrementClick, calculateTotalAmount, showPrevPicture, showNextPicture } = this;
+    const { onIncrementClick, onDecrementClick, calculateTotalAmount } = this;
     const { cart, currency, cartQuantity, dropdown, type } = this.props;
     const totalAmount = calculateTotalAmount(cart);
     const tax = (totalAmount * 0.12).toFixed(2);
