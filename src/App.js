@@ -17,11 +17,10 @@ const client = new ApolloClient({
   uri: "http://localhost:4000/",
 });
 
-
-// add portal for dropdowns
-// change paths for router
-// check code for refactoring needs 
+// check code for refactoring needs
 // add opportunity to add goods with different attributes
+// and delete goods 
+// add currency symbols to cart
 
 const CATEGORIES = gql`
   {
@@ -42,23 +41,23 @@ class App extends Component {
     this.setState({ currency });
   };
 
+
   addToCart = (product) => {
     const productInTheCart = this.state.cart.find(
       (item) => item.id === product.id
     );
 
     if (productInTheCart) {
-      console.log(`Product ${product.name} is already in the cart`);
       return;
     }
     this.setState((prevState) => ({ cart: [...prevState.cart, product] }));
   };
 
+ 
+
   toggleCart = () => {
     this.setState(({ cartOpen }) => ({ cartOpen: !cartOpen }));
   };
-
-  // NEED TO CHANGE TO MAP
 
   changeSelectedAttributes = (changedAttribute, id) => {
     this.setState((prevState) => ({
@@ -86,12 +85,19 @@ class App extends Component {
     }));
   };
 
+  deleteProduct = () => {
+    
+  }
+
   quantityDecrement = (id) => {
+    const product = this.state.cart.find(product => product.id === id);
+    if (product.quantity === 1) {
+      this.setState(prevState => ({
+        cart: prevState.cart.filter(product => product.id !== id)
+      }))
+    }
     this.setState((prevState) => ({
       cart: prevState.cart.map((product) => {
-        if (product.quantity === 1) {
-          return product;
-        }
         return product.id === id
           ? { ...product, quantity: product.quantity - 1 }
           : product;
@@ -143,13 +149,22 @@ class App extends Component {
                   </Route>
 
                   {categories.map(({ name }) => (
-                    <Route path={`/${name}`} key={name}>
+                    <Route path={`/${name}`} key={name} exact>
                       <CategoryView
                         title={name}
                         currency={currency}
                         addToCart={addToCart}
                       />
-                    </Route>
+                      </Route>
+                  ))}
+
+                  {categories.map(({ name }) => (
+                    <Route path={`/${name}/:productId`} key={name} exact>
+                    <ProductDetailsView
+                      addToCart={addToCart}
+                      currency={currency}
+                    />
+                  </Route>
                   ))}
 
                   <Route path={"/cart"}>
@@ -160,13 +175,6 @@ class App extends Component {
                       changeSelectedAttributes={changeSelectedAttributes}
                       quantityIncrement={quantityIncrement}
                       quantityDecrement={quantityDecrement}
-                    />
-                  </Route>
-
-                  <Route path={"/:productId"}>
-                    <ProductDetailsView
-                      addToCart={addToCart}
-                      currency={currency}
                     />
                   </Route>
                 </Switch>

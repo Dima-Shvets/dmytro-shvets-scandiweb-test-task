@@ -6,7 +6,7 @@
     height: 29px;
     position: relative;
     background: #FFFFFF;
-
+    z-index:1003;
 }
 
 .symbol {
@@ -44,6 +44,8 @@
     box-sizing: border-box;
 
     transform: translate(-11px);
+
+    background: #FFFFFF;
 }
 
 .dropdownMenu li:not(:last-child) {

@@ -3,6 +3,8 @@ import { Component } from "react";
 import { gql } from "apollo-boost";
 import { Query } from "@apollo/react-components";
 
+import { ReactComponent as CartIcon } from "./cart-icon.svg";
+
 import ProductCard from "../../components/ProductCard";
 
 import s from "./CategoryView.module.scss";
@@ -43,7 +45,6 @@ export default class CategoryView extends Component {
   }
 
   addToCart = (id) => {
-    console.log('add in PLP')
     const product = this.state.products.find(product => product.id === id);
     const selectedAttributes = this.setDefaultAttributes(product.attributes);
     this.props.addToCart({...product, quantity: 1, selectedAttributes})
@@ -54,12 +55,19 @@ export default class CategoryView extends Component {
       (a, v) => ({ ...a, [v.name]: v.items[0].value }),
       {}
       );
-      return { selectedAttributes: defaultAttributes };
+      return  defaultAttributes;
   };
+
+  setButtonStyle = (id) => {
+    const cardText = document.querySelector(`#${id}`);
+    if (cardText) {
+      return cardText.getBoundingClientRect().height;
+    }
+    }
 
   render() {
     const { title, currency } = this.props;
-    console.log(this.props)
+    const { addToCart, setButtonStyle } = this;
     return (
       <section className={s.CategoryView}>
         <h2 className={s.title}>{title}</h2>
@@ -80,6 +88,9 @@ export default class CategoryView extends Component {
                       currency={currency}
                       addToCart={this.addToCart}
                     />
+                    <button style={{ bottom: `${setButtonStyle(product.id)+12}px`}} className={s.cartBtn} onClick={() => addToCart(product.id)}>
+            <CartIcon/>
+          </button>
                   </li>
                 ))}
               </ul>

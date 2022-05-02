@@ -6,9 +6,8 @@
     text-decoration: none;
 }
 
-.link:hover .cartBtn {
-    opacity: 1;
-    visibility: visible;
+.textWrapper{
+margin-top: 24px;
 }
 
 .picture {
@@ -19,12 +18,7 @@
 
 }
 
-.textWrapper{
-    position: relative;
-}
-
 .name {
-    margin-top: 24px;
     font-size: 18px;
     font-weight: 300;
     line-height: 1.5em;
@@ -36,21 +30,4 @@
     line-height: 1.5em;
 }
 
-.cartBtn {
-    position: absolute;
-    top: -26px;
-    right: 31px;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    width: 52px;
-    height: 52px;
-    border: none;
-    border-radius: 50%;
 
-    opacity: 0;
-    visibility: hidden;
-    
-    background-color: var(--accent-color);
-    cursor: pointer;
-}
