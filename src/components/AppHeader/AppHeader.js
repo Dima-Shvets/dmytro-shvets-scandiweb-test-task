@@ -14,8 +14,6 @@ export default class AppHeader extends Component {
     this.props.setCurrency(currency);
   };
 
-  
-
   render() {
     const {
       categories,
@@ -50,7 +48,7 @@ export default class AppHeader extends Component {
           cartQuantity={cartQuantity}
         >
           <Cart
-            type='dropdown'
+            type="dropdown"
             cart={cart}
             currency={currency}
             cartQuantity={cartQuantity}

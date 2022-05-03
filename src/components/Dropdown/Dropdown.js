@@ -26,7 +26,7 @@ export default class Dropdown extends Component {
   };
 
   onCurrencySelect = ({ label, symbol }) => {
-    this.setState({ selectedCurrency: {symbol, label} });
+    this.setState({ selectedCurrency: { symbol, label } });
     this.props.setCurrency(label);
     this.setState({ dropdownOpen: false });
   };
@@ -39,8 +39,8 @@ export default class Dropdown extends Component {
     this.props.setCurrency(currencies[0]);
   };
 
-    render() {
-      const { selectedCurrency, dropdownOpen } = this.state;
+  render() {
+    const { selectedCurrency, dropdownOpen } = this.state;
     return (
       <Query
         query={GET_CURRENCIES}
@@ -60,22 +60,20 @@ export default class Dropdown extends Component {
                 <DropdownButtonIcon />
               </button>
               {this.state.dropdownOpen && (
-                  <ul className={s.dropdownMenu}>
-                    {data.currencies.map(({ label, symbol }) => (
-                      <li key={label}>
-                        <button
-                          className={s.button}
-                          type="button"
-                          onClick={() =>
-                            this.onCurrencySelect({ label, symbol })
-                          }
-                        >
-                          <span>{symbol}</span>
-                          {label}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+                <ul className={s.dropdownMenu}>
+                  {data.currencies.map(({ label, symbol }) => (
+                    <li key={label}>
+                      <button
+                        className={s.button}
+                        type="button"
+                        onClick={() => this.onCurrencySelect({ label, symbol })}
+                      >
+                        <span>{symbol}</span>
+                        {label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
           );

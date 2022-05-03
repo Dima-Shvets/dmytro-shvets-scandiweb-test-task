@@ -7,7 +7,7 @@ import { withRouter } from "react-router";
 import AttributesButtons from "../../components/AttributesButtons";
 import ImagesGallery from "../../components/ImagesGallery";
 
-import s from './ProductDetailsView.module.scss';
+import s from "./ProductDetailsView.module.scss";
 
 const GET_PRODUCT = gql`
   query Category($id: String!) {
@@ -58,18 +58,19 @@ class ProductDetailsView extends Component {
   setDefaultAttributes = (attributes) => {
     if (Object.keys(this.state.selectedAttributes).length === 0) {
       const defaultAttributes = attributes.reduce(
-      (a, v) => ({ ...a, [v.name]: v.items[0].value }),
-      {}
+        (a, v) => ({ ...a, [v.name]: v.items[0].value }),
+        {}
       );
       this.setState({ selectedAttributes: defaultAttributes });
     }
-    
   };
 
   render() {
     const { updateSelectedAttributes, onButtonClick, setDefaultAttributes } =
       this;
+    
     const { currency: selectedCurrency } = this.props;
+    
     const { selectedAttributes } = this.state;
 
     const { productId } = this.props.match.params;
@@ -81,7 +82,6 @@ class ProductDetailsView extends Component {
           setDefaultAttributes(data.product.attributes);
         }}
       >
-        
         {({ loading, error, data }) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <p>Error :(</p>;
@@ -96,13 +96,14 @@ class ProductDetailsView extends Component {
               <div className={s.contentWrapper}>
                 <h2 className={s.title}>{product.brand}</h2>
                 <p className={s.name}>{product.name}</p>
-                {product.attributes &&
-                <AttributesButtons
-                  type='view'
-                  changeSelectedAttributes={updateSelectedAttributes}
-                  attributes={product.attributes}
-                  selectedAttributes={selectedAttributes}
-                />}
+                {product.attributes && (
+                  <AttributesButtons
+                    type="view"
+                    changeSelectedAttributes={updateSelectedAttributes}
+                    attributes={product.attributes}
+                    selectedAttributes={selectedAttributes}
+                  />
+                )}
                 <div className={s.priceWapper}>
                   <h3 className={s.priceTitle}>Price:</h3>
                   <p className={s.priceText}>
@@ -110,7 +111,11 @@ class ProductDetailsView extends Component {
                     {selectedCurrencyPrice.amount}
                   </p>
                 </div>
-                <button className={s.addBtn} type="button" onClick={() => onButtonClick(data)}>
+                <button
+                  className={s.addBtn}
+                  type="button"
+                  onClick={() => onButtonClick(data)}
+                >
                   Add to cart
                 </button>
                 <div

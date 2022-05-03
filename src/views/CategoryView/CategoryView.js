@@ -17,15 +17,15 @@ const GET_CATEGORY = gql`
         name
         gallery
         inStock
-        attributes{
-        id
-        name
-        type
-        items {
-          displayValue
-          value
+        attributes {
           id
-        }
+          name
+          type
+          items {
+            displayValue
+            value
+            id
+          }
         }
         prices {
           currency {
@@ -39,24 +39,23 @@ const GET_CATEGORY = gql`
   }
 `;
 
-
 export default class CategoryView extends Component {
   state = {
     products: [],
-  }
+  };
 
   addToCart = (id) => {
-    const product = this.state.products.find(product => product.id === id);
+    const product = this.state.products.find((product) => product.id === id);
     const selectedAttributes = this.setDefaultAttributes(product.attributes);
-    this.props.addToCart({...product, quantity: 1, selectedAttributes})
-  }
+    this.props.addToCart({ ...product, quantity: 1, selectedAttributes });
+  };
 
   setDefaultAttributes = (attributes) => {
-      const defaultAttributes = attributes.reduce(
+    const defaultAttributes = attributes.reduce(
       (a, v) => ({ ...a, [v.name]: v.items[0].value }),
       {}
-      );
-      return  defaultAttributes;
+    );
+    return defaultAttributes;
   };
 
   setButtonStyle = (id) => {
@@ -64,7 +63,7 @@ export default class CategoryView extends Component {
     if (cardText) {
       return cardText.getBoundingClientRect().height;
     }
-    }
+  };
 
   render() {
     const { title, currency } = this.props;
@@ -72,11 +71,13 @@ export default class CategoryView extends Component {
     return (
       <section className={s.CategoryView}>
         <h2 className={s.title}>{title}</h2>
-        <Query query={GET_CATEGORY}
+        <Query
+          query={GET_CATEGORY}
           variables={{ title }}
           onCompleted={(data) => {
-            this.setState({ products: data.category.products })
-          }}>
+            this.setState({ products: data.category.products });
+          }}
+        >
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error :(</p>;
@@ -89,9 +90,13 @@ export default class CategoryView extends Component {
                       currency={currency}
                       addToCart={this.addToCart}
                     />
-                    <button style={{ bottom: `${setButtonStyle(product.id)+12}px`}} className={s.cartBtn} onClick={() => addToCart(product.id)}>
-            <CartIcon/>
-          </button>
+                    <button
+                      style={{ bottom: `${setButtonStyle(product.id) + 12}px` }}
+                      className={s.cartBtn}
+                      onClick={() => addToCart(product.id)}
+                    >
+                      <CartIcon />
+                    </button>
                   </li>
                 ))}
               </ul>

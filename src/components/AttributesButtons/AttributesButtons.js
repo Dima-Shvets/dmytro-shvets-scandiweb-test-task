@@ -15,7 +15,7 @@ export default class AttributesButtons extends Component {
   };
 
   render() {
-    const { attributes, type, dropdown } = this.props;
+    const { attributes, type } = this.props;
     return (
       <div>
         {attributes.map((attribute) => {
@@ -40,16 +40,21 @@ export default class AttributesButtons extends Component {
                           item.value
                         }
                       ></input>
-                      {attribute.type === "text"?
-                        < label htmlFor={btnId} className={s[`${type}Label`]}>
-                      {item.displayValue}
-                      </label>: 
-                    < label htmlFor={btnId} className={s[`${type}ColorLabel`]} style={{backgroundColor: `${item.displayValue}`}}></label>
-              }
-                  </div>
-                );
-              })}
-                </div>
+                      {attribute.type === "text" ? (
+                        <label htmlFor={btnId} className={s[`${type}Label`]}>
+                          {item.displayValue}
+                        </label>
+                      ) : (
+                        <label
+                          htmlFor={btnId}
+                          className={s[`${type}ColorLabel`]}
+                          style={{ backgroundColor: `${item.displayValue}` }}
+                        ></label>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           );
         })}

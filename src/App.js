@@ -7,8 +7,9 @@ import { Switch, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 
 import Container from "./components/Container";
-import CategoryView from "./views/CategoryView/index.js";
-import ProductDetailsView from "./views/ProductDetailsView/ProductDetailView";
+import CategoryView from "./views/CategoryView";
+import ProductDetailsView from "./views/ProductDetailsView";
+import NotFoundView from "./views/NotFoundView";
 import CartView from "./views/CartView";
 import AppHeader from "./components/AppHeader";
 import { Redirect } from "react-router-dom";
@@ -16,7 +17,6 @@ import { Redirect } from "react-router-dom";
 const client = new ApolloClient({
   uri: "http://localhost:4000/",
 });
-
 
 const CATEGORIES = gql`
   {
@@ -37,7 +37,6 @@ class App extends Component {
     this.setState({ currency });
   };
 
-
   addToCart = (product) => {
     const productInTheCart = this.state.cart.find(
       (item) => item.id === product.id
@@ -48,8 +47,6 @@ class App extends Component {
     }
     this.setState((prevState) => ({ cart: [...prevState.cart, product] }));
   };
-
- 
 
   toggleCart = () => {
     this.setState(({ cartOpen }) => ({ cartOpen: !cartOpen }));
@@ -81,16 +78,16 @@ class App extends Component {
     }));
   };
 
-  deleteProduct = () => {
-    
-  }
+  deleteProduct = (id) => {
+    this.setState((prevState) => ({
+      cart: prevState.cart.filter((product) => product.id !== id),
+    }));
+  };
 
   quantityDecrement = (id) => {
-    const product = this.state.cart.find(product => product.id === id);
+    const product = this.state.cart.find((product) => product.id === id);
     if (product.quantity === 1) {
-      this.setState(prevState => ({
-        cart: prevState.cart.filter(product => product.id !== id)
-      }))
+      this.deleteProduct(id);
     }
     this.setState((prevState) => ({
       cart: prevState.cart.map((product) => {
@@ -114,8 +111,11 @@ class App extends Component {
       quantityIncrement,
       quantityDecrement,
     } = this;
+
     const { cartOpen, currency, cart } = this.state;
+
     const cartQuantity = this.calculateCartQuantity(cart);
+
     return (
       <ApolloProvider client={client}>
         <Query query={CATEGORIES}>
@@ -123,7 +123,6 @@ class App extends Component {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error :(</p>;
             const { categories } = data;
-
             return (
               <Container>
                 <AppHeader
@@ -150,16 +149,16 @@ class App extends Component {
                         currency={currency}
                         addToCart={addToCart}
                       />
-                      </Route>
+                    </Route>
                   ))}
 
                   {categories.map(({ name }) => (
                     <Route path={`/${name}/:productId`} key={name} exact>
-                    <ProductDetailsView
-                      addToCart={addToCart}
-                      currency={currency}
-                    />
-                  </Route>
+                      <ProductDetailsView
+                        addToCart={addToCart}
+                        currency={currency}
+                      />
+                    </Route>
                   ))}
 
                   <Route path={"/cart"}>
@@ -171,6 +170,9 @@ class App extends Component {
                       quantityIncrement={quantityIncrement}
                       quantityDecrement={quantityDecrement}
                     />
+                  </Route>
+                  <Route>
+                    <NotFoundView />
                   </Route>
                 </Switch>
               </Container>

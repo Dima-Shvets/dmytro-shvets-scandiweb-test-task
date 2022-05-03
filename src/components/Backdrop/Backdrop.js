@@ -1,9 +1,9 @@
 import { Component } from "react";
 
-import s from './Backdrop.module.scss';
+import s from "./Backdrop.module.scss";
 
 export default class Backdrop extends Component {
-overlayClickHandler = (e) => {
+  overlayClickHandler = (e) => {
     if (e.target === e.currentTarget) {
       this.props.toggleCart();
     }
@@ -16,13 +16,13 @@ overlayClickHandler = (e) => {
   };
 
   componentDidMount() {
-      window.addEventListener("keydown", this.onEscButtonPress);
-      document.body.style.overflow = 'hidden';
+    window.addEventListener("keydown", this.onEscButtonPress);
+    document.body.style.overflow = "hidden";
   }
 
   componentWillUnmount() {
-      window.removeEventListener("keydown", this.onEscButtonPress);
-      document.body.style.overflow = 'unset';
+    window.removeEventListener("keydown", this.onEscButtonPress);
+    document.body.style.overflow = "unset";
   }
 
   setBackdropStyles = () => {
@@ -30,13 +30,17 @@ overlayClickHandler = (e) => {
     if (header) {
       return header.getBoundingClientRect().height;
     }
-    }
-    
-    render() {
-        const { overlayClickHandler } = this;
+  };
+
+  render() {
+    const { overlayClickHandler } = this;
     const headerHeight = this.setBackdropStyles();
-        return (
-            <div className={s.backdrop} style={{top: headerHeight}} onClick={overlayClickHandler}></div>
-        )
-    }
+    return (
+      <div
+        className={s.backdrop}
+        style={{ top: headerHeight }}
+        onClick={overlayClickHandler}
+      ></div>
+    );
+  }
 }
