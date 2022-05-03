@@ -17,10 +17,6 @@ const client = new ApolloClient({
   uri: "http://localhost:4000/",
 });
 
-// check code for refactoring needs
-// add opportunity to add goods with different attributes
-// and delete goods 
-// add currency symbols to cart
 
 const CATEGORIES = gql`
   {
@@ -32,7 +28,7 @@ const CATEGORIES = gql`
 
 class App extends Component {
   state = {
-    currency: "",
+    currency: {},
     cart: [],
     cartOpen: false,
   };
@@ -119,7 +115,6 @@ class App extends Component {
       quantityDecrement,
     } = this;
     const { cartOpen, currency, cart } = this.state;
-
     const cartQuantity = this.calculateCartQuantity(cart);
     return (
       <ApolloProvider client={client}>

@@ -87,7 +87,7 @@ class ProductDetailsView extends Component {
           if (error) return <p>Error :(</p>;
           const { product } = data;
           const selectedCurrencyPrice = product.prices.find(
-            (price) => price.currency.label === selectedCurrency
+            (price) => price.currency.label === selectedCurrency.label
           );
 
           return (

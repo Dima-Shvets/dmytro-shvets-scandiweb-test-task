@@ -13,7 +13,7 @@ import s from './Cart.module.scss'
 export default class Cart extends Component {
 
   findSelectedCurrencyPrice = (item, selectedCurrency) => {
-        return item.prices.find(price => price.currency.label === selectedCurrency)
+        return item.prices.find(price => price.currency.label === selectedCurrency.label)
   }
   
   onIncrementClick = (productId) => {
@@ -41,7 +41,7 @@ export default class Cart extends Component {
   render() {
     const { onIncrementClick, onDecrementClick, calculateTotalAmount } = this;
     const { cart, currency, cartQuantity, dropdown, type } = this.props;
-    const totalAmount = calculateTotalAmount(cart);
+    const totalAmount = calculateTotalAmount(cart).toFixed(2);
     const tax = (totalAmount * 0.12).toFixed(2);
     return (
       <div className={s[`${type}Cart`]}>
@@ -81,11 +81,11 @@ export default class Cart extends Component {
         })}
         {type === 'view' &&
           <>
-          <p className={s.tax}>Tax: <span>{tax}</span></p> 
+          <p className={s.tax}>Tax: <span>{currency.symbol}{tax}</span></p> 
           <p className={s.quantity}>Qty: <span>{cartQuantity}</span></p>
           </>
 }
-        <p className={s[`${type}Total`]}>Total <span>{totalAmount}</span></p>
+        <p className={s[`${type}Total`]}>Total: <span>{currency.symbol}{totalAmount}</span></p>
         { type === 'dropdown' && cart.length !== 0 &&
         <div className={s.buttonsWrapper}>
           <Link className={s.link} to='/cart' onClick={this.onLinkClick}>View bag</Link>

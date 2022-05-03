@@ -10,7 +10,7 @@ class ProductCard extends Component {
     const { currency: selectedCurrency } = this.props;
     const { name, gallery, prices, id } = this.props.product;
     const selectedCurrencyPrice = prices.find(
-      (price) => price.currency.label === selectedCurrency
+      (price) => price.currency.label === selectedCurrency.label
     );
 
     return (
