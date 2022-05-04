@@ -26,8 +26,8 @@ export default class Dropdown extends Component {
   };
 
   onCurrencySelect = ({ label, symbol }) => {
-    this.setState({ selectedCurrency: { symbol, label } });
-    this.props.setCurrency(label);
+    this.setState({ selectedCurrency: symbol });
+    this.props.setCurrency({label, symbol});
     this.setState({ dropdownOpen: false });
   };
 
