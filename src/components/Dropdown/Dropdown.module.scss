@@ -35,12 +35,11 @@
 }
 
 .dropdownMenu {
-
+    padding-top: 12px;
     position: absolute;
     top: 100%;
     left: 0;
     width: 114px;
-    padding: 20px;
     box-sizing: border-box;
 
     transform: translate(-11px);
@@ -48,8 +47,20 @@
     background: #FFFFFF;
 }
 
+.dropdownMenu li {
+    width:114px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 20px;
+    // padding-right: 38px;
+}
+
 .dropdownMenu li:not(:last-child) {
     margin-bottom: 21px;
+}
+
+.dropdownMenu li:hover {
+    background-color: #EEEEEE;
 }
 
 .button {

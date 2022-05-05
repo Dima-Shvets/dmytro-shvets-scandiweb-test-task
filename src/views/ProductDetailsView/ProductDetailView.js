@@ -86,6 +86,7 @@ class ProductDetailsView extends Component {
           if (loading) return <p>Loading...</p>;
           if (error) return <p>Error :(</p>;
           const { product } = data;
+          console.log(product)
           const selectedCurrencyPrice = product.prices.find(
             (price) => price.currency.label === selectedCurrency.label
           );
@@ -114,6 +115,7 @@ class ProductDetailsView extends Component {
                 <button
                   className={s.addBtn}
                   type="button"
+                  disabled={!product.inStock}
                   onClick={() => onButtonClick(data)}
                 >
                   Add to cart

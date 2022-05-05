@@ -1,33 +1,40 @@
-.link{
-    display: flex;
-    flex-direction: column;
-    height:100%;
-    color: var(--main-text-color);
-    text-decoration: none;
+.link {
+  color: var(--main-text-color);
+  text-decoration: none;
 }
 
-.textWrapper{
-margin-top: 24px;
+.textWrapper {
+  margin-top: 24px;
+}
+
+.pictureOverlay{
+    width: 100%;
+    height: 100%;
+    
+}
+
+.pictureWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 354px;
+  height: 330px;
 }
 
 .picture {
-
-    display: block;
-    margin-top: auto;
-    margin-bottom: auto;
-
+  display: block;
+  height: 330px;
+  width: auto;
 }
 
 .name {
-    font-size: 18px;
-    font-weight: 300;
-    line-height: 1.5em;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.5em;
 }
 
 .price {
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 1.5em;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5em;
 }
-
-

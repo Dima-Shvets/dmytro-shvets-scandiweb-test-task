@@ -13,6 +13,7 @@ const GET_CATEGORY = gql`
   query Category($title: String!) {
     category(input: { title: $title }) {
       products {
+        brand
         id
         name
         gallery
