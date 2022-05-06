@@ -16,12 +16,12 @@ export default class Cart extends Component {
     );
   };
 
-  onIncrementClick = (productId) => {
-    this.props.quantityIncrement(productId);
+  onIncrementClick = (cartId) => {
+    this.props.quantityIncrement(cartId);
   };
 
-  onDecrementClick = (productId) => {
-    this.props.quantityDecrement(productId);
+  onDecrementClick = (cartId) => {
+    this.props.quantityDecrement(cartId);
   };
 
   onLinkClick = () => {
@@ -61,7 +61,7 @@ export default class Cart extends Component {
             currency
           );
           return (
-            <div className={s[`${type}Product`]} key={item.id}>
+            <div className={s[`${type}Product`]} key={item.cartId}>
               <div className={s[`${type}InformationWrapper`]}>
                 <p className={s[`${type}Brand`]}>{item.brand}</p>
                 <p className={s[`${type}Name`]}>{item.name}</p>
@@ -87,7 +87,7 @@ export default class Cart extends Component {
                 <button
                   className={s[`${type}QuantityBtn`]}
                   onClick={() => {
-                    onIncrementClick(item.id);
+                    onIncrementClick(item.cartId);
                   }}
                 >
                   <HorisontalLine />
@@ -97,7 +97,7 @@ export default class Cart extends Component {
                 <button
                   className={s[`${type}QuantityBtn`]}
                   onClick={() => {
-                    onDecrementClick(item.id);
+                    onDecrementClick(item.cartId);
                   }}
                 >
                   <HorisontalLine />

@@ -86,7 +86,6 @@ class ProductDetailsView extends Component {
           if (loading) return <p>Loading...</p>;
           if (error) return <p>Error :(</p>;
           const { product } = data;
-          console.log(product)
           const selectedCurrencyPrice = product.prices.find(
             (price) => price.currency.label === selectedCurrency.label
           );
@@ -97,6 +96,7 @@ class ProductDetailsView extends Component {
               <div className={s.contentWrapper}>
                 <h2 className={s.title}>{product.brand}</h2>
                 <p className={s.name}>{product.name}</p>
+               {!product.inStock && <p>Out of stock</p>}
                 {product.attributes && (
                   <AttributesButtons
                     type="view"

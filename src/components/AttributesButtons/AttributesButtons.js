@@ -7,8 +7,8 @@ import s from "./AttributesButtons.module.scss";
 export default class AttributesButtons extends Component {
   onInputChange = (name, value) => {
     if (this.props.cart) {
-      const { id } = this.props.product;
-      this.props.changeSelectedAttributes({ [name]: value }, id);
+      const { cartId } = this.props.product;
+      this.props.changeSelectedAttributes({ [name]: value }, cartId);
       return;
     }
     this.props.changeSelectedAttributes({ [name]: value });

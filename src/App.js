@@ -6,6 +6,8 @@ import { Query } from "@apollo/react-components";
 import { Switch, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 
+import { v4 as uuidv4 } from "uuid";
+
 import Container from "./components/Container";
 import CategoryView from "./views/CategoryView";
 import ProductDetailsView from "./views/ProductDetailsView";
@@ -37,15 +39,72 @@ class App extends Component {
     this.setState({ currency });
   };
 
-  addToCart = (product) => {
-    const productInTheCart = this.state.cart.find(
-      (item) => item.id === product.id
-    );
+   deleteProduct = (cartId) => {
+    this.setState((prevState) => ({
+      cart: prevState.cart.filter((product) => product.cartId !== cartId),
+    }));
+  };
 
-    if (productInTheCart) {
-      return;
+  quantityIncrement = (cartId) => {
+    this.setState((prevState) => ({
+      cart: prevState.cart.map((product) =>
+        product.cartId === cartId
+          ? { ...product, quantity: product.quantity + 1 }
+          : product
+      ),
+    }));
+  };
+
+  quantityDecrement = (cartId) => {
+    const product = this.state.cart.find((product) => product.cartId === cartId);
+    if (product.quantity === 1) {
+      this.deleteProduct(cartId);
     }
-    this.setState((prevState) => ({ cart: [...prevState.cart, product] }));
+    this.setState((prevState) => ({
+      cart: prevState.cart.map((product) => {
+        return product.cartId === cartId
+          ? { ...product, quantity: product.quantity - 1 }
+          : product;
+      }),
+    }));
+  };
+
+ 
+
+   shallowEqual = (object1, object2) => {
+  const keys1 = Object.keys(object1);
+  const keys2 = Object.keys(object2);
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+  for (let key of keys1) {
+    if (object1[key] !== object2[key]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+  addToCart = (newProduct) => {
+    // const productInTheCart = this.state.cart.find(
+    //   (item) => item.id === newProduct.id
+    // );
+    const productsInTheCart = this.state.cart.filter(
+      (item) => item.id === newProduct.id
+    ); 
+
+    if (productsInTheCart.length > 0) {
+      
+      productsInTheCart.forEach(product => {
+        if (this.shallowEqual(product.selectedAttributes, newProduct.selectedAttributes)) {
+        this.quantityIncrement(product.cartId);
+        return
+      }
+      this.setState(({ cart }) => ({ cart: [...cart, { ...newProduct, cartId: uuidv4() }] }))
+      return
+      })
+    }
+    this.setState(({cart}) => ({ cart: [...cart, {...newProduct, cartId:uuidv4()}] }));
   };
 
   toggleCart = () => {
@@ -55,7 +114,7 @@ class App extends Component {
   changeSelectedAttributes = (changedAttribute, id) => {
     this.setState((prevState) => ({
       cart: prevState.cart.map((product) =>
-        product.id === id
+        product.cartId === id
           ? {
               ...product,
               selectedAttributes: {
@@ -68,35 +127,7 @@ class App extends Component {
     }));
   };
 
-  quantityIncrement = (id) => {
-    this.setState((prevState) => ({
-      cart: prevState.cart.map((product) =>
-        product.id === id
-          ? { ...product, quantity: product.quantity + 1 }
-          : product
-      ),
-    }));
-  };
-
-  deleteProduct = (id) => {
-    this.setState((prevState) => ({
-      cart: prevState.cart.filter((product) => product.id !== id),
-    }));
-  };
-
-  quantityDecrement = (id) => {
-    const product = this.state.cart.find((product) => product.id === id);
-    if (product.quantity === 1) {
-      this.deleteProduct(id);
-    }
-    this.setState((prevState) => ({
-      cart: prevState.cart.map((product) => {
-        return product.id === id
-          ? { ...product, quantity: product.quantity - 1 }
-          : product;
-      }),
-    }));
-  };
+  
 
   calculateCartQuantity = (cart) => {
     return cart.reduce((a, v) => a + v.quantity, 0);
