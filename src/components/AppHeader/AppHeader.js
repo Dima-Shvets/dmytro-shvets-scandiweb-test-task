@@ -4,17 +4,24 @@ import { NavLink } from "react-router-dom";
 import { ReactComponent as Logo } from "./a-logo.svg";
 
 import Cart from "../Cart/Cart";
-import Dropdown from "../Dropdown";
+import CurrencyDropdown from "../CurrencyDropdown";
 import CartDropdown from "../CartDropdown/CartDropdown";
 
 import s from "./AppHeader.module.scss";
 
 export default class AppHeader extends Component {
+  state = {
+    currencyDropdownIsopen: false,
+  }
+
   setCurrency = (currency) => {
     this.props.setCurrency(currency);
   };
 
   render() {
+    const {
+      currencyDropdownIsopen
+    } = this.state;
     const {
       categories,
       cartOpen,
@@ -41,7 +48,7 @@ export default class AppHeader extends Component {
           ))}
         </nav>
         <Logo className={s.Logo} />
-        <Dropdown setCurrency={this.setCurrency} />
+        <CurrencyDropdown setCurrency={this.setCurrency} />
         <CartDropdown
           cartOpen={cartOpen}
           toggleCart={toggleCart}

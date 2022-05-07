@@ -39,7 +39,13 @@ class App extends Component {
     this.setState({ currency });
   };
 
-   deleteProduct = (cartId) => {
+  addProduct = (newProduct) => {
+    this.setState(({ cart }) => ({
+          cart: [...cart, { ...newProduct, cartId: uuidv4() }],
+        }))
+  }
+
+  deleteProduct = (cartId) => {
     this.setState((prevState) => ({
       cart: prevState.cart.filter((product) => product.cartId !== cartId),
     }));
@@ -56,7 +62,9 @@ class App extends Component {
   };
 
   quantityDecrement = (cartId) => {
-    const product = this.state.cart.find((product) => product.cartId === cartId);
+    const product = this.state.cart.find(
+      (product) => product.cartId === cartId
+    );
     if (product.quantity === 1) {
       this.deleteProduct(cartId);
     }
@@ -69,42 +77,47 @@ class App extends Component {
     }));
   };
 
- 
-
-   shallowEqual = (object1, object2) => {
-  const keys1 = Object.keys(object1);
-  const keys2 = Object.keys(object2);
-  if (keys1.length !== keys2.length) {
-    return false;
-  }
-  for (let key of keys1) {
-    if (object1[key] !== object2[key]) {
+  checkEqualAttributes = (attributes1, attributes2) => {
+    const keys1 = Object.keys(attributes1);
+    const keys2 = Object.keys(attributes2);
+    if (keys1.length !== keys2.length) {
       return false;
     }
-  }
-  return true;
-}
+    for (let key of keys1) {
+      if (attributes1[key] !== attributes2[key]) {
+        return false;
+      }
+    }
+    return true;
+  };
 
   addToCart = (newProduct) => {
-    // const productInTheCart = this.state.cart.find(
-    //   (item) => item.id === newProduct.id
-    // );
     const productsInTheCart = this.state.cart.filter(
       (item) => item.id === newProduct.id
-    ); 
-
+    );
+  
     if (productsInTheCart.length > 0) {
-      
-      productsInTheCart.forEach(product => {
-        if (this.shallowEqual(product.selectedAttributes, newProduct.selectedAttributes)) {
-        this.quantityIncrement(product.cartId);
-        return
+      let existingProduct = false;
+      for (const product of productsInTheCart) {
+        const check = this.shallowEqual(
+            product.selectedAttributes,
+            newProduct.selectedAttributes
+        )
+        
+        if (check) {
+          this.quantityIncrement(product.cartId);
+          existingProduct = true;
+          break
+        }
+      };
+
+      if (!existingProduct) {
+        this.addProduct(newProduct);
       }
-      this.setState(({ cart }) => ({ cart: [...cart, { ...newProduct, cartId: uuidv4() }] }))
-      return
-      })
+      return;
     }
-    this.setState(({cart}) => ({ cart: [...cart, {...newProduct, cartId:uuidv4()}] }));
+
+    this.addProduct(newProduct);
   };
 
   toggleCart = () => {
@@ -126,8 +139,6 @@ class App extends Component {
       ),
     }));
   };
-
-  
 
   calculateCartQuantity = (cart) => {
     return cart.reduce((a, v) => a + v.quantity, 0);

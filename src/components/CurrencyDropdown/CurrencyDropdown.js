@@ -4,7 +4,7 @@ import { Query } from "@apollo/react-components";
 
 import { ReactComponent as DropdownButtonIcon } from "./dropdown-button-icon.svg";
 
-import s from "./Dropdown.module.scss";
+import s from "./CurrencyDropdown.module.scss";
 
 const GET_CURRENCIES = gql`
   {
