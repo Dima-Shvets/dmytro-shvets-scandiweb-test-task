@@ -22,9 +22,8 @@ export default class AppHeader extends Component {
     }
   };
 
-
-
   toggleCurrencyDropdown = () => {
+    console.log('toggle')
     this.setState(({ currencyDropdownOpen }) => ({
       currencyDropdownOpen: !currencyDropdownOpen,
     }));

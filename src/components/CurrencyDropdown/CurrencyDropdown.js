@@ -22,8 +22,8 @@ export default class Dropdown extends Component {
 
   onCurrencySelect = ({ label, symbol }) => {
     this.setState({ selectedCurrency: symbol });
-    this.props.setCurrency({label, symbol});
-    this.props.toggleCurrencyDropdown();
+    this.props.setCurrency({ label, symbol });
+    // this.props.toggleCurrencyDropdown();
   };
 
   setDefaultCurrency = (currencies) => {
@@ -34,10 +34,16 @@ export default class Dropdown extends Component {
     this.props.setCurrency(currencies[0]);
   };
 
+  onOutsideClick = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      this.props.toggleCurrencyDropdown();
+    }
+  }
+
   render() {
     const { selectedCurrency, } = this.state;
     const { currencyDropdownOpen, toggleCurrencyDropdown } = this.props;
-    const { onCurrencySelect, onToggleClick } = this;
+    const { onCurrencySelect, onOutsideClick } = this;
 
     return (
       <Query
@@ -48,7 +54,7 @@ export default class Dropdown extends Component {
           if (loading) return <p>Loading...</p>;
           if (error) return <p>Error :(</p>;
           return (
-            <div className={s.dropdown}>
+            <div className={s.dropdown} tabIndex="0" onBlur={onOutsideClick}>
               <button
                 className={`${s.toggle} ${currencyDropdownOpen ? s.reversed : ""}`}
                 type="button"
@@ -58,7 +64,7 @@ export default class Dropdown extends Component {
                 <DropdownButtonIcon />
               </button>
               {currencyDropdownOpen && (
-                <ul className={s.dropdownMenu}>
+                <ul className={s.dropdownMenu} >
                   {data.currencies.map(({ label, symbol }) => (
                     <li key={label}>
                       <button
