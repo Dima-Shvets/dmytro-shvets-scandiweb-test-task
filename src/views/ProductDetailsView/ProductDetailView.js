@@ -4,6 +4,8 @@ import { gql } from "apollo-boost";
 import { Query } from "@apollo/react-components";
 import { withRouter } from "react-router";
 
+import parse from 'html-react-parser';
+
 import AttributesButtons from "../../components/AttributesButtons";
 import ImagesGallery from "../../components/ImagesGallery";
 
@@ -120,9 +122,9 @@ class ProductDetailsView extends Component {
                 >
                   Add to cart
                 </button>
-                <div
-                  dangerouslySetInnerHTML={{ __html: product.description }}
-                />
+                <div className={s.description}>
+                  {parse(product.description)} 
+                </div>
               </div>
             </section>
           );

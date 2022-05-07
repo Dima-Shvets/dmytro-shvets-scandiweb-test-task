@@ -17,18 +17,13 @@ const GET_CURRENCIES = gql`
 
 export default class Dropdown extends Component {
   state = {
-    dropdownOpen: false,
     selectedCurrency: "",
-  };
-
-  onToggleClick = () => {
-    this.setState((prevState) => ({ dropdownOpen: !prevState.dropdownOpen }));
   };
 
   onCurrencySelect = ({ label, symbol }) => {
     this.setState({ selectedCurrency: symbol });
     this.props.setCurrency({label, symbol});
-    this.setState({ dropdownOpen: false });
+    this.props.toggleCurrencyDropdown();
   };
 
   setDefaultCurrency = (currencies) => {
@@ -40,7 +35,10 @@ export default class Dropdown extends Component {
   };
 
   render() {
-    const { selectedCurrency, dropdownOpen } = this.state;
+    const { selectedCurrency, } = this.state;
+    const { currencyDropdownOpen, toggleCurrencyDropdown } = this.props;
+    const { onCurrencySelect, onToggleClick } = this;
+
     return (
       <Query
         query={GET_CURRENCIES}
@@ -52,21 +50,21 @@ export default class Dropdown extends Component {
           return (
             <div className={s.dropdown}>
               <button
-                className={`${s.toggle} ${dropdownOpen ? s.reversed : ""}`}
+                className={`${s.toggle} ${currencyDropdownOpen ? s.reversed : ""}`}
                 type="button"
-                onClick={this.onToggleClick}
+                onClick={toggleCurrencyDropdown}
               >
                 <span className={s.symbol}>{selectedCurrency}</span>
                 <DropdownButtonIcon />
               </button>
-              {this.state.dropdownOpen && (
+              {currencyDropdownOpen && (
                 <ul className={s.dropdownMenu}>
                   {data.currencies.map(({ label, symbol }) => (
                     <li key={label}>
                       <button
                         className={s.button}
                         type="button"
-                        onClick={() => this.onCurrencySelect({ label, symbol })}
+                        onClick={() => onCurrencySelect({ label, symbol })}
                       >
                         <span>{symbol}</span>
                         {label}

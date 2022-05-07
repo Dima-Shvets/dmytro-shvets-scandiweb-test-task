@@ -91,13 +91,14 @@ export default class CategoryView extends Component {
                       currency={currency}
                       addToCart={this.addToCart}
                     />
-                    <button
-                      style={{ bottom: `${setButtonStyle(product.id) + 12}px` }}
-                      className={s.cartBtn}
-                      onClick={() => addToCart(product.id)}
-                    >
-                      <CartIcon />
-                    </button>
+                    {product.inStock &&
+                      <button
+                        style={{ bottom: `${setButtonStyle(product.id) + 12}px` }}
+                        className={s.cartBtn}
+                        onClick={() => addToCart(product.id)}
+                      >
+                        <CartIcon />
+                      </button>}
                   </li>
                 ))}
               </ul>

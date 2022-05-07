@@ -11,21 +11,36 @@ import s from "./AppHeader.module.scss";
 
 export default class AppHeader extends Component {
   state = {
-    currencyDropdownIsopen: false,
-  }
+    currencyDropdownOpen: false,
+    cartOpen: false,
+  };
+
+  toggleCart = () => {
+    this.setState(({ cartOpen }) => ({ cartOpen: !cartOpen }));
+    if (this.state.currencyDropdownOpen) {
+      this.setState(({ currencyDropdownOpen }) => ({ currencyDropdownOpen: !currencyDropdownOpen }));
+    }
+  };
+
+
+
+  toggleCurrencyDropdown = () => {
+    this.setState(({ currencyDropdownOpen }) => ({
+      currencyDropdownOpen: !currencyDropdownOpen,
+    }));
+    if (this.state.cartOpen) {
+      this.setState(({ cartOpen }) => ({ cartOpen: !cartOpen }));
+    }
+  };
 
   setCurrency = (currency) => {
     this.props.setCurrency(currency);
   };
 
   render() {
-    const {
-      currencyDropdownIsopen
-    } = this.state;
+    const { currencyDropdownOpen, cartOpen } = this.state;
     const {
       categories,
-      cartOpen,
-      toggleCart,
       cart,
       currency,
       quantityIncrement,
@@ -33,6 +48,7 @@ export default class AppHeader extends Component {
       changeSelectedAttributes,
       cartQuantity,
     } = this.props;
+    const { toggleCart, toggleCurrencyDropdown, setCurrency } = this;
     return (
       <header className={s.AppHeader}>
         <nav className={s.AppMenu}>
@@ -48,11 +64,15 @@ export default class AppHeader extends Component {
           ))}
         </nav>
         <Logo className={s.Logo} />
-        <CurrencyDropdown setCurrency={this.setCurrency} />
+        <CurrencyDropdown
+          currencyDropdownOpen={currencyDropdownOpen}
+          setCurrency={setCurrency}
+          toggleCurrencyDropdown={toggleCurrencyDropdown}
+        />
         <CartDropdown
           cartOpen={cartOpen}
-          toggleCart={toggleCart}
           cartQuantity={cartQuantity}
+          toggleCart={toggleCart}
         >
           <Cart
             type="dropdown"

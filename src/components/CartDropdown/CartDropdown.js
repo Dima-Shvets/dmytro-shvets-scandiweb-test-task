@@ -9,7 +9,7 @@ import s from "./CartDropdown.module.scss";
 export default class CartDropdown extends Component {
   render() {
 
-    const { cartOpen, toggleCart, children, cartQuantity } = this.props;
+    const { cartOpen, toggleCart,  children, cartQuantity } = this.props;
     
     return (
       <div className={s.dropdown}>

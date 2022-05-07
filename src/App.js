@@ -32,7 +32,7 @@ class App extends Component {
   state = {
     currency: {},
     cart: [],
-    cartOpen: false,
+    
   };
 
   setCurrency = (currency) => {
@@ -120,9 +120,7 @@ class App extends Component {
     this.addProduct(newProduct);
   };
 
-  toggleCart = () => {
-    this.setState(({ cartOpen }) => ({ cartOpen: !cartOpen }));
-  };
+  
 
   changeSelectedAttributes = (changedAttribute, id) => {
     this.setState((prevState) => ({
@@ -147,14 +145,13 @@ class App extends Component {
   render() {
     const {
       setCurrency,
-      toggleCart,
       addToCart,
       changeSelectedAttributes,
       quantityIncrement,
       quantityDecrement,
     } = this;
 
-    const { cartOpen, currency, cart } = this.state;
+    const { currency, cart } = this.state;
 
     const cartQuantity = this.calculateCartQuantity(cart);
 
@@ -169,11 +166,9 @@ class App extends Component {
               <Container>
                 <AppHeader
                   categories={categories}
-                  cartOpen={cartOpen}
                   cart={cart}
                   cartQuantity={cartQuantity}
                   currency={currency}
-                  toggleCart={toggleCart}
                   setCurrency={setCurrency}
                   changeSelectedAttributes={changeSelectedAttributes}
                   quantityIncrement={quantityIncrement}
