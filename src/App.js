@@ -25,7 +25,6 @@ class App extends Component {
   state = {
     currency: {},
     cart: [],
-    
   };
 
   setCurrency = (currency) => {
@@ -34,9 +33,9 @@ class App extends Component {
 
   addProduct = (newProduct) => {
     this.setState(({ cart }) => ({
-          cart: [...cart, { ...newProduct, cartId: uuidv4() }],
-        }))
-  }
+      cart: [...cart, { ...newProduct, cartId: uuidv4() }],
+    }));
+  };
 
   deleteProduct = (cartId) => {
     this.setState((prevState) => ({
@@ -88,21 +87,21 @@ class App extends Component {
     const productsInTheCart = this.state.cart.filter(
       (item) => item.id === newProduct.id
     );
-  
+
     if (productsInTheCart.length > 0) {
       let existingProduct = false;
       for (const product of productsInTheCart) {
-        const check = this.shallowEqual(
-            product.selectedAttributes,
-            newProduct.selectedAttributes
-        )
-        
+        const check = this.checkEqualAttributes(
+          product.selectedAttributes,
+          newProduct.selectedAttributes
+        );
+
         if (check) {
           this.quantityIncrement(product.cartId);
           existingProduct = true;
-          break
+          break;
         }
-      };
+      }
 
       if (!existingProduct) {
         this.addProduct(newProduct);
@@ -112,8 +111,6 @@ class App extends Component {
 
     this.addProduct(newProduct);
   };
-
-  
 
   changeSelectedAttributes = (changedAttribute, id) => {
     this.setState((prevState) => ({

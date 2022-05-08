@@ -23,11 +23,7 @@ export default class ImagesGallery extends Component {
             </li>
           ))}
         </ul>
-        <img
-          src={this.state.bigImage}
-          alt={`Selected picture of ${name}`}
-          width="610"
-        />
+        <img src={this.state.bigImage} alt={name} width="610" />
       </div>
     );
   }
