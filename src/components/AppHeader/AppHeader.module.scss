@@ -5,13 +5,9 @@
 
 .AppMenu {
    display: flex; 
-
+    align-items: center;
    margin-right: 364px;
 }
-
-// .item {
-
-// }
 
 .link {
     position: relative;
@@ -48,8 +44,7 @@
 }
 }
 
-.Logo{
-    // justify-self: center;
+.logoWrapper{
     padding-top: 24px;
     padding-bottom: 15px;
     margin-right: 519px;

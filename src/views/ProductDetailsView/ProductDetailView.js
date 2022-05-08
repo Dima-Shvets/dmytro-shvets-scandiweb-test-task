@@ -1,45 +1,17 @@
 import { Component } from "react";
 
-import { gql } from "apollo-boost";
 import { Query } from "@apollo/react-components";
 import { withRouter } from "react-router";
 
 import parse from 'html-react-parser';
+
+import {GET_PRODUCT} from '../../graphql/queries';
 
 import AttributesButtons from "../../components/AttributesButtons";
 import ImagesGallery from "../../components/ImagesGallery";
 
 import s from "./ProductDetailsView.module.scss";
 
-const GET_PRODUCT = gql`
-  query Category($id: String!) {
-    product(id: $id) {
-      id
-      name
-      inStock
-      gallery
-      description
-      prices {
-        currency {
-          label
-          symbol
-        }
-        amount
-      }
-      attributes {
-        id
-        name
-        type
-        items {
-          displayValue
-          value
-          id
-        }
-      }
-      brand
-    }
-  }
-`;
 
 class ProductDetailsView extends Component {
   state = {

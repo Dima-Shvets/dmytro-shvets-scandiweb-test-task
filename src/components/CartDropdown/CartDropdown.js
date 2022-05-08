@@ -9,7 +9,7 @@ import s from "./CartDropdown.module.scss";
 export default class CartDropdown extends Component {
   onOutsideClick = (e) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
-      this.props.toggleCart();
+      this.props.closeCart();
     }
   }
 

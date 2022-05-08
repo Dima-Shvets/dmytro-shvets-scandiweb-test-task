@@ -1,44 +1,15 @@
 import { Component } from "react";
 
-import { gql } from "apollo-boost";
 import { Query } from "@apollo/react-components";
 
 import { ReactComponent as CartIcon } from "./cart-icon.svg";
+
+import { GET_CATEGORY } from "../../graphql/queries";
 
 import ProductCard from "../../components/ProductCard";
 
 import s from "./CategoryView.module.scss";
 
-const GET_CATEGORY = gql`
-  query Category($title: String!) {
-    category(input: { title: $title }) {
-      products {
-        brand
-        id
-        name
-        gallery
-        inStock
-        attributes {
-          id
-          name
-          type
-          items {
-            displayValue
-            value
-            id
-          }
-        }
-        prices {
-          currency {
-            label
-            symbol
-          }
-          amount
-        }
-      }
-    }
-  }
-`;
 
 export default class CategoryView extends Component {
   state = {
@@ -59,16 +30,9 @@ export default class CategoryView extends Component {
     return defaultAttributes;
   };
 
-  setButtonStyle = (id) => {
-    const cardText = document.querySelector(`#${id}`);
-    if (cardText) {
-      return cardText.getBoundingClientRect().height;
-    }
-  };
-
   render() {
     const { title, currency } = this.props;
-    const { addToCart, setButtonStyle } = this;
+    const { addToCart} = this;
     return (
       <section className={s.CategoryView}>
         <h2 className={s.title}>{title}</h2>
@@ -93,7 +57,6 @@ export default class CategoryView extends Component {
                     />
                     {product.inStock &&
                       <button
-                        style={{ bottom: `${setButtonStyle(product.id) + 12}px` }}
                         className={s.cartBtn}
                         onClick={() => addToCart(product.id)}
                       >

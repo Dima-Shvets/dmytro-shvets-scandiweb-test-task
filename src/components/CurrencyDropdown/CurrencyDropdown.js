@@ -1,19 +1,11 @@
 import { Component } from "react";
-import { gql } from "apollo-boost";
 import { Query } from "@apollo/react-components";
-
 import { ReactComponent as DropdownButtonIcon } from "./dropdown-button-icon.svg";
+
+import { GET_CURRENCIES } from "../../graphql/queries";
 
 import s from "./CurrencyDropdown.module.scss";
 
-const GET_CURRENCIES = gql`
-  {
-    currencies {
-      label
-      symbol
-    }
-  }
-`;
 
 export default class Dropdown extends Component {
   state = {
@@ -23,7 +15,7 @@ export default class Dropdown extends Component {
   onCurrencySelect = ({ label, symbol }) => {
     this.setState({ selectedCurrency: symbol });
     this.props.setCurrency({ label, symbol });
-    // this.props.toggleCurrencyDropdown();
+    this.props.closeCurrencyDropdown();
   };
 
   setDefaultCurrency = (currencies) => {
@@ -36,7 +28,7 @@ export default class Dropdown extends Component {
 
   onOutsideClick = (e) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
-      this.props.toggleCurrencyDropdown();
+      this.props.closeCurrencyDropdown();
     }
   }
 

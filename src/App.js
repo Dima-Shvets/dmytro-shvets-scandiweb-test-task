@@ -1,12 +1,13 @@
 import "./App.css";
 import { Component } from "react";
-import { gql } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { Query } from "@apollo/react-components";
 import { Switch, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 
 import { v4 as uuidv4 } from "uuid";
+
+import { GET_CATEGORIES } from "./graphql/queries";
 
 import Container from "./components/Container";
 import CategoryView from "./views/CategoryView";
@@ -19,14 +20,6 @@ import { Redirect } from "react-router-dom";
 const client = new ApolloClient({
   uri: "http://localhost:4000/",
 });
-
-const CATEGORIES = gql`
-  {
-    categories {
-      name
-    }
-  }
-`;
 
 class App extends Component {
   state = {
@@ -157,7 +150,7 @@ class App extends Component {
 
     return (
       <ApolloProvider client={client}>
-        <Query query={CATEGORIES}>
+        <Query query={GET_CATEGORIES}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error :(</p>;

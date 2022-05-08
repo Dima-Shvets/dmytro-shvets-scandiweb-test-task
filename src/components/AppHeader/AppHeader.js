@@ -15,20 +15,27 @@ export default class AppHeader extends Component {
     cartOpen: false,
   };
 
+  closeCart = () => {
+    this.setState({ cartOpen: false });
+  }
+
   toggleCart = () => {
     this.setState(({ cartOpen }) => ({ cartOpen: !cartOpen }));
     if (this.state.currencyDropdownOpen) {
-      this.setState(({ currencyDropdownOpen }) => ({ currencyDropdownOpen: !currencyDropdownOpen }));
+      this.closeCart();
     }
   };
 
+  closeCurrencyDropdown = () => {
+    this.setState({ currencyDropdownOpen: false })
+  }
+
   toggleCurrencyDropdown = () => {
-    console.log('toggle')
     this.setState(({ currencyDropdownOpen }) => ({
       currencyDropdownOpen: !currencyDropdownOpen,
     }));
     if (this.state.cartOpen) {
-      this.setState(({ cartOpen }) => ({ cartOpen: !cartOpen }));
+      this.closeCurrencyDropdown();
     }
   };
 
@@ -47,7 +54,7 @@ export default class AppHeader extends Component {
       changeSelectedAttributes,
       cartQuantity,
     } = this.props;
-    const { toggleCart, toggleCurrencyDropdown, setCurrency } = this;
+    const { toggleCart, toggleCurrencyDropdown, setCurrency, closeCurrencyDropdown, closeCart } = this;
     return (
       <header className={s.AppHeader}>
         <nav className={s.AppMenu}>
@@ -62,16 +69,20 @@ export default class AppHeader extends Component {
             </NavLink>
           ))}
         </nav>
-        <Logo className={s.Logo} />
+        <div className={s.logoWrapper}>
+          <Logo className={s.Logo} />
+        </div>
         <CurrencyDropdown
           currencyDropdownOpen={currencyDropdownOpen}
           setCurrency={setCurrency}
           toggleCurrencyDropdown={toggleCurrencyDropdown}
+          closeCurrencyDropdown={closeCurrencyDropdown}
         />
         <CartDropdown
           cartOpen={cartOpen}
           cartQuantity={cartQuantity}
           toggleCart={toggleCart}
+          closeCart={closeCart}
         >
           <Cart
             type="dropdown"
