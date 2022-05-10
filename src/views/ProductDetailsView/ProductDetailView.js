@@ -3,15 +3,14 @@ import { Component } from "react";
 import { Query } from "@apollo/react-components";
 import { withRouter } from "react-router";
 
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 
-import {GET_PRODUCT} from '../../graphql/queries';
+import { GET_PRODUCT } from "../../graphql/queries";
 
 import AttributesButtons from "../../components/AttributesButtons";
 import ImagesGallery from "../../components/ImagesGallery";
 
 import s from "./ProductDetailsView.module.scss";
-
 
 class ProductDetailsView extends Component {
   state = {
@@ -42,9 +41,9 @@ class ProductDetailsView extends Component {
   render() {
     const { updateSelectedAttributes, onButtonClick, setDefaultAttributes } =
       this;
-    
+
     const { currency: selectedCurrency } = this.props;
-    
+
     const { selectedAttributes } = this.state;
 
     const { productId } = this.props.match.params;
@@ -70,7 +69,6 @@ class ProductDetailsView extends Component {
               <div className={s.contentWrapper}>
                 <h2 className={s.title}>{product.brand}</h2>
                 <p className={s.name}>{product.name}</p>
-               {!product.inStock && <p>Out of stock</p>}
                 {product.attributes && (
                   <AttributesButtons
                     type="view"
@@ -95,7 +93,7 @@ class ProductDetailsView extends Component {
                   Add to cart
                 </button>
                 <div className={s.description}>
-                  {parse(product.description)} 
+                  {parse(product.description)}
                 </div>
               </div>
             </section>
